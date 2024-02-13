@@ -4,11 +4,8 @@
 name: Build and deploy Node.js app to Azure Web App - RepoScraper
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
-
+  
 jobs:
   build:
     runs-on: ubuntu-latest
