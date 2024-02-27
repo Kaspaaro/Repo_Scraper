@@ -1,9 +1,18 @@
 {
+  "type": "commonjs",
   "name": "reposcrapper",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "dev": "nodemon src/backend/index.ts",
+    "build": "react-scripts build",
+    "test": "react-scripts tests",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
     "@apollo/server": "^4.10.0",
+    "@graphql-tools/load-files": "^7.0.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -11,8 +20,12 @@
     "@types/node": "^16.18.80",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.18.2",
     "graphql": "^16.8.1",
+    "graphql-middleware": "^6.1.35",
+    "helmet": "^7.1.0",
     "mongodb": "^6.3.0",
     "mongoose": "^8.1.2",
     "react": "^18.2.0",
@@ -21,12 +34,6 @@
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts tests",
-    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -47,12 +54,15 @@
     ]
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "eslint": "^8.56.0",
     "eslint-config-semistandard": "^17.0.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^15.7.0",
     "eslint-plugin-promise": "^6.1.1",
-    "jest": "^27.5.1"
+    "jest": "^27.5.1",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2"
   }
 }
