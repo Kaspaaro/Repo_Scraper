@@ -21,7 +21,7 @@ import typeDefs from './api/schemas/index';
 //import {GraphQLError} from 'graphql';
 //test
 
-const app = express();
+const app = express();  
 
 app.use(
 	helmet({
