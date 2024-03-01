@@ -8,7 +8,11 @@ type User = Partial<Document> & {
     password: string;
 };
 type GithubUser = {
-    name: string;
+    data: {
+        user: {
+            name: string;
+        };
+    }
 };
 
 type UserOutput = Omit<User, 'password' | 'role'>;
