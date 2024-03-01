@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 export default {
 	Query: {
-		githubUser: async (_parent: undefined, {username}: {username: string}) => {
+		githubUser: async (_parent: undefined, args: {username: string}) => {
 			const response = await fetch('https://api.github.com/graphql', {
 				method: 'POST',
 				headers: {
@@ -17,9 +17,9 @@ export default {
                 id
                 email
               }
-            }
+            } 
           `,
-					variables: { username: username},
+					variables: { username: 'Kaspaaro'},
 				}),
 			});
 			const { data, errors } = await response.json();
