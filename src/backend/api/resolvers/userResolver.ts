@@ -1,10 +1,8 @@
-//import {GraphQLError} from 'graphql';
 import {User, UserInput} from '../../database/types/DBTypes';
 import {MyContext} from '../../database/types/MyContext';
 import fetchData from '../../auth-functions/fetchData';
 import {UserResponse} from '../../database/types/MessageTypes';
 import {isAdmin, isLoggedIn} from '../../auth-functions/authorize';
-//import {LoginResponse, UserResponse} from '../../types/MessageTypes';
 
 export default {
 	Query: {
@@ -85,7 +83,7 @@ export default {
 				},
 			);
 		},
-		deleteUser: async (_parent: undefined, args: {}, context: MyContext) => {
+		deleteUser: async (_parent: undefined, args: NonNullable<unknown>, context: MyContext) => {
 			isLoggedIn(context);
 			//console.log('user from delete function', context.userdata?.token);
 			return await fetchData<UserResponse>(`${process.env.AUTH_URL}/users`, {
