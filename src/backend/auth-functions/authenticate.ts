@@ -3,9 +3,15 @@ import fetchData from './fetchData';
 import {LoginUser, TokenContent} from '../database/types/DBTypes';
 import {UserResponse} from '../database/types/MessageTypes';
 import {MyContext} from '../database/types/MyContext';
+import {Octokit} from 'octokit';
 
 export default async (req: Request): Promise<MyContext> => {
 	const authHeader = req.headers.authorization;
+	const octokit = new Octokit({
+		auth: process.env.GITHUB_TOKEN
+	});
+	await octokit.auth();
+	
 	if (authHeader) {
 		try {
 			const token = authHeader.split(' ')[1];

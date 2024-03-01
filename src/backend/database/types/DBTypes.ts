@@ -7,6 +7,13 @@ type User = Partial<Document> & {
     role: 'user' | 'admin';
     password: string;
 };
+type GithubUser = {
+    data: {
+        user: {
+            name: string;
+        };
+    }
+};
 
 type UserOutput = Omit<User, 'password' | 'role'>;
 
@@ -28,4 +35,5 @@ export type {
 	UserTest,
 	LoginUser,
 	TokenContent,
+	GithubUser,
 };
