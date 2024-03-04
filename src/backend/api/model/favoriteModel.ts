@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {Favorite} from '../../database/types/DBTypes';
+import {Repository} from '../../database/types/DBTypes';
 
 const favModel = new mongoose.Schema({
 	name: {
@@ -21,4 +21,4 @@ const favModel = new mongoose.Schema({
 	},
 });
 
-export const favoriteModel = mongoose.model<Favorite>('Favorite', favModel);
+export const favoriteModel = mongoose.model<Repository>('Favorite', favModel);

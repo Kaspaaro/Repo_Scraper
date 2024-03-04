@@ -15,14 +15,15 @@ type GithubUser = {
     }
 };
 
-type Favorite = Partial<Document> & {
+type Repository = Partial<Document> & {
     id: Types.ObjectId | string;
     user: Types.ObjectId | string;
-    link: string;
+    name: string;
     url: string;
 }
+type RepositoryTest = Partial<Repository>
 
-type InputFavorite = Omit<Favorite, 'id'>;
+type RepositoryInput = Omit<Repository, 'id'>;
 
 type UserOutput = Omit<User, 'password' | 'role'>;
 
@@ -45,6 +46,7 @@ export type {
 	LoginUser,
 	TokenContent,
 	GithubUser,
-	Favorite,
-	InputFavorite
+	Repository,
+	RepositoryInput,
+	RepositoryTest,
 };
