@@ -1,19 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import '../cssStyles/CredentialPopup.css';
+import CredentialSelectionButtonProps from '../Props/CredentialSelectionButtonProps';
 
-const RegisterSelecionButton = () =>{
-	const [isActive, setActive] = useState(false);
-
-	useEffect(()=>{
-		if(isActive){
-			setActive(false);
-		}
-	},[isActive]);
-
+//RegisterSelecionButton component for registering an account and opening the register form.
+const RegisterSelecionButton = ({ isActive, setActive }: CredentialSelectionButtonProps) =>{
 	return (
 		<>
-			<svg className={'containerRegisterButton clickable'} onClick={() => setActive(true)} xmlns="http://www.w3.org/2000/svg">
-				<path d="M276 0H0L26 34L0 69H276V0Z"/>
+			<svg className={'containerRegisterButton clickable'} onClick={()=>setActive(!isActive)} xmlns="http://www.w3.org/2000/svg">
+				<path fill={isActive ? '#1D2228' : '#212121'} d="M276 0H0L26 34L0 69H276V0Z"/>
 				<text className={'containerButtonText'} dy={'2.6rem'} dx={'4.5rem'} >Registeration</text>
 			</svg>
 		</>
