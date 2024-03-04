@@ -10,7 +10,7 @@ input Favorite_Repo_Input {
 }
 
 type Query {
-    favorites(user: ID!): [Favorite_Repo]
+    favorites: [Favorite_Repo]
 }
 
 type Mutation {
