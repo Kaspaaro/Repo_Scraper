@@ -9,6 +9,10 @@ const Register_Creds = () => {
 				<input className={'passwordRegisterInput'} type="password" placeholder="Password"/>
 				<input className={'confirmPasswordRegisterInput'} type="password" placeholder="Confirm Password"/>
 				<button className={'registerButtonCreds'}>Register</button>
+				<div className={'externalRegisterField'}>
+					<button className={'googleRegisterButtonCreds'}>Register - Google</button>
+					<button className={'githubRegisterButtonCreds'}>Register - GitHub</button>
+				</div>
 			</form>
 		</div>
 	);

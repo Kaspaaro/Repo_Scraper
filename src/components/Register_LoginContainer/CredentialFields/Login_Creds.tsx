@@ -7,6 +7,10 @@ const Login_Creds = () => {
 				<input className={'usernameLoginInput'} type="text" placeholder="Username" />
 				<input className={'passwordLoginInput'} type="password" placeholder="Password" />
 				<button className={'loginButtonCreds'}>Login</button>
+				<div className={'externalLoginField'}>
+					<button className={'googleLoginButtonCreds'}>Login - Google</button>
+					<button className={'githubLoginButtonCreds'}>Login - GitHub</button>
+				</div>
 			</form>
 		</div>
 	);

@@ -12,6 +12,8 @@ const CredentialsPopup = ({isOpen: isOpenProp}:Props) =>{
 	const [isOpen, setIsOpen] = useState(isOpenProp);
 	const [isLoginActive, setLoginActive] = useState(false);
 	const [isRegisterActive, setRegisterActive] = useState(false);
+	const [isDisabledLogin, setDisabledLogin] = useState(false);
+	const [isDisabledRegister, setDisabledRegister] = useState(false);
 
 	useEffect(()=>{
 		setIsOpen(isOpenProp);
@@ -19,20 +21,30 @@ const CredentialsPopup = ({isOpen: isOpenProp}:Props) =>{
 		setRegisterActive(false);
 	},[isOpenProp]);
 
+	useEffect(() => {
+		if (isLoginActive) {
+			setDisabledLogin(true);
+			setDisabledRegister(false);
+		}else{
+			setDisabledLogin(false);
+			setDisabledRegister(true);
+		}
+	}, [isLoginActive,isRegisterActive]);
+
 	return isOpen ?(
 		<>
-			<div className={`registerContainer ${isOpen ? 'visible' : ''}`}>
+			<div className={`credentialContainer ${isOpen ? 'visible' : ''}`}>
 				<LoginSelecionButton isActive={isLoginActive} setActive={() => {
 					setLoginActive(!isLoginActive);
 					if (!isLoginActive) {
 						setRegisterActive(false);
-					}}}/>
+					}}} Disabled={isDisabledLogin}/>
 				<RegisterSelecionButton isActive={isRegisterActive} setActive={() => {
 					setRegisterActive(!isRegisterActive);
 					if (!isRegisterActive) {
 						setLoginActive(false);
 					}
-				}}/>
+				}} Disabled={isDisabledRegister}/>
 				<div className={'cred_loginField'}>
 					{isLoginActive && <Login_Creds/>}
 					{isRegisterActive && <Register_Creds/>}
