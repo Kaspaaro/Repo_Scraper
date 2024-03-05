@@ -32,11 +32,11 @@ jobs:
           npm install
 
       - name: Build
-
         run: npm run build --if-present
 
       - name: Test
         run: |
             npm run test:build
             rm -rf src
+
 
