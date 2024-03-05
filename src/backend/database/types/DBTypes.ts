@@ -15,6 +15,16 @@ type GithubUser = {
     }
 };
 
+type Repository = Partial<Document> & {
+    id: Types.ObjectId | string;
+    user: Types.ObjectId | string;
+    name: string;
+    url: string;
+}
+type RepositoryTest = Partial<Repository>
+
+type RepositoryInput = Omit<Repository, 'id'>;
+
 type UserOutput = Omit<User, 'password' | 'role'>;
 
 type UserInput = Omit<User, 'id' | 'role'>;
@@ -36,4 +46,7 @@ export type {
 	LoginUser,
 	TokenContent,
 	GithubUser,
+	Repository,
+	RepositoryInput,
+	RepositoryTest,
 };
