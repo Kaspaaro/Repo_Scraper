@@ -6,8 +6,13 @@
   "scripts": {
     "start": "react-scripts start",
     "dev": "nodemon src/backend/index.ts",
-    "build": "react-scripts build",
-    "test": "jest",
+    "build": "concurrently \"react-scripts build\" \"tsc\"",
+    "copyGraphql": "copyfiles --error src/backend/api/schemas/*.graphql dist",
+    "postbuild": "npm run copyGraphql",
+    "lint": "eslint --fix src src/test",
+    "test": "npm run test:src && npm run test:build",
+    "test:src": "jest --config=jest.config.js",
+    "test:build": "jest --config=jest.config.build.js --detectOpenHandles --forceExit",
     "eject": "react-scripts eject"
   },
   "dependencies": {
@@ -20,7 +25,10 @@
     "@types/node": "^16.18.80",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
+    "concurrently": "^8.2.2",
+    "copyfiles": "^2.4.1",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "express": "^4.18.2",
     "graphql": "^16.8.1",

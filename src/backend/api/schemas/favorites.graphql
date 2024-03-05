@@ -1,0 +1,19 @@
+type FavoriteRepository {
+    id: ID!
+    name: String!
+    owner: User!
+    url: String!
+}
+input RepositoryInput {
+    name: String
+    url: String
+}
+
+type Query {
+    favorites: [FavoriteRepository]
+}
+
+type Mutation {
+    addRepository(input: RepositoryInput!): FavoriteRepository
+    removeRepository(id: ID!): FavoriteRepository
+}
