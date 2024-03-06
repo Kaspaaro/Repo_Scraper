@@ -121,3 +121,4 @@ export default {
 		},
 	},
 };
+export {User, UserInput, Repository};
