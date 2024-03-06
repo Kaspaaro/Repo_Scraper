@@ -33,6 +33,12 @@ type UserTest = Partial<User>;
 
 type LoginUser = Omit<User, 'password'>;
 
+type Credentials = {
+    user_name: string;
+    email: string;
+    password: string;
+};
+
 type TokenContent = {
     token: string;
     user: LoginUser;
@@ -49,4 +55,5 @@ export type {
 	Repository,
 	RepositoryInput,
 	RepositoryTest,
+	Credentials,
 };
