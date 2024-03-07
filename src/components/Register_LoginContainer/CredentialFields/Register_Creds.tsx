@@ -1,52 +1,35 @@
-import React, {useEffect, useState} from 'react';
-import '../cssStyles/RegisterContainerStyle.css';
-import {doGraphQLFetch} from '../../../backend/api/fetchFunctions/fetch';
+import React, { useState } from 'react';
+import { doGraphQLFetch } from '../../../backend/api/fetchFunctions/fetch';
 import registerquery from '../../../backend/api/fetchFunctions/queries';
+import '../cssStyles/RegisterContainerStyle.css';
 const Register_Creds = () => {
-	const [isClicked, setIsClicked] = useState(false);
-	const [username, setUsername] = useState('');
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	const [credentials, setCredentials] = useState({ user_name: '', password: '', email: '' });
 	const [confirmPassword, setConfirmPassword] = useState('');
-	
-	useEffect(() => {
-		if (confirmPassword === password) {
-			const credentials = {
-				user: {
-					user_name: username,
-					password: password,
-					email: email,
-				}
-			};
-			const apiURL: string = process.env.REACT_APP_GRAPHQL_SERVER as string;
-			console.log('API URL OMG ', apiURL);
-			if (isClicked) {
-				console.log('REGISTER GRAPHQL ' + apiURL + '\n'
-					+ 'Credentials: ' + credentials.user.email +' '+ credentials.user.user_name+ ' '+credentials.user.password + '\n' + 'Register Query: ' + registerquery);
 
-				try {
-					const register =  doGraphQLFetch(apiURL, registerquery, credentials);
-					register.then(async (res)  =>{
-						console.log(res);});
-					alert('Registered');
-				} catch (er) {
-					console.log(er);
-				}
-			}
-		}else{
-			alert('Passwords do not match');
+	const handleRegister = () => {
+		if (credentials.password === confirmPassword && credentials.password.length > 5) {
+			const apiURL = process.env.REACT_APP_GRAPHQL_SERVER as string;
+			doGraphQLFetch(apiURL, registerquery, { user: credentials })
+				.then(console.log)
+				.catch(console.log);
+		} else {
+			alert('Passwords do not match or are less than 5 characters long');
 		}
-	}, [isClicked]);
+	};
+
+	const handleInputChange = (e: { target: { name: string; value: string; }; }) => {
+		setCredentials({ ...credentials, [e.target.name]: e.target.value });
+	};
 
 	return (
 		<div>
-			<form className={'registerCredsForm'}>
-				<input className={'usernameRegisterInput'} type="text" onChange={(e) => setUsername(e.target.value)} placeholder="Username"/>
-				<input className={'emailRegisterInput'} type="email" onChange={(e) => setEmail(e.target.value)} placeholder="Email"/>
-				<input className={'passwordRegisterInput'} type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password"/>
-				<input className={'confirmPasswordRegisterInput'} type="password" onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm Password"/>
+			<form>
+				<input className={'usernameRegisterInput'} name="user_name" type="text" onChange={handleInputChange} placeholder="Username" />
+				<input className={'emailRegisterInput'} name="email" type="email" onChange={handleInputChange} placeholder="Email" />
+				<input className={'passwordRegisterInput'} name="password" type="password" onChange={handleInputChange} placeholder="Password" />
+				<input className={'confirmPasswordRegisterInput'} name="confirmPassword" type="password" onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm Password" />
 			</form>
-			<button className={'registerButtonCreds'} onClick={() => setIsClicked(true)}>Register</button>
+			<button className={'registerButtonCreds'} onClick={handleRegister}>Register</button>
 			<div className={'externalRegisterField'}>
 				<button className={'googleRegisterButtonCreds'}>Register - Google</button>
 				<button className={'githubRegisterButtonCreds'}>Register - GitHub</button>
@@ -54,4 +37,5 @@ const Register_Creds = () => {
 		</div>
 	);
 };
+
 export default Register_Creds;
