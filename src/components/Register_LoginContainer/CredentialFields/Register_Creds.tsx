@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
-import { doGraphQLFetch } from '../../../backend/api/fetchFunctions/fetch';
-import registerquery from '../../../backend/api/fetchFunctions/queries';
+import userResolver from '../../../backend/api/resolvers/userResolver';
 import '../cssStyles/RegisterContainerStyle.css';
 const Register_Creds = () => {
 	const [credentials, setCredentials] = useState({ user_name: '', password: '', email: '' });
 	const [confirmPassword, setConfirmPassword] = useState('');
 
 	const handleRegister = () => {
-		if (credentials.password === confirmPassword && credentials.password.length > 5) {
-			const apiURL = process.env.REACT_APP_GRAPHQL_SERVER as string;
-			doGraphQLFetch(apiURL, registerquery, { user: credentials })
-				.then(console.log)
-				.catch(console.log);
+		if (credentials.password === confirmPassword && credentials.password.length > 4) {
+			console.log('credentials !!', credentials);
+			userResolver.Mutation.register( undefined,{user: credentials}).then(r => console.log(r));
 		} else {
 			alert('Passwords do not match or are less than 5 characters long');
 		}
