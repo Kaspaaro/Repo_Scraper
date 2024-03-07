@@ -18,7 +18,7 @@ export default async (req: Request): Promise<MyContext> => {
 			if (!process.env.JWT_SECRET) throw new Error('JWT_SECRET not defined');
 			console.log('token from 4-5 server: ', token);
 			const user = await fetchData<UserResponse>(
-				`${process.env.AUTH_URL}/users/token`,
+				`${process.env.REACT_APP_AUTH_URL}/users/token`,
 				{
 					headers: {
 						Authorization: `Bearer ${token}`,
