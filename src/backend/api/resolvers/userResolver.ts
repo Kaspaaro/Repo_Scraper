@@ -88,6 +88,9 @@ export default {
 					body: JSON.stringify(args.user),
 				},
 			);
+			// if favoriteModel.find({user: args.id}) > 0 {
+			// 	favoritesResolver.Query.
+			// }
 		},
 		deleteUser: async (_parent: undefined, args: NonNullable<unknown>, context: MyContext) => {
 			isLoggedIn(context);

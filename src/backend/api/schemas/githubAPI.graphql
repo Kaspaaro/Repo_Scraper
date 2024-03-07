@@ -1,6 +1,17 @@
-type GithubOwner {
+type GithubUser {
     name: String
 }
+type RepoOwner {
+    login: String
+}
+type GithubRepo {
+    id: ID
+    name: String
+    url: String
+    description: String
+    owner: RepoOwner
+}
 extend type Query {
-    githubUser(username:String!) : GithubOwner
+    githubUser(username:String!) : GithubUser
+    githubRepos(listID: [String!]) : [GithubRepo]
 }

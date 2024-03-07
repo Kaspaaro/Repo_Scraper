@@ -15,11 +15,35 @@ type GithubUser = {
     }
 };
 
+type Owner = {
+    login: string;
+}
+
+type GithubRepository = {
+    data: {
+        nodes: Node[];
+    }
+}
+type Node = {
+    id: string;
+    name: string;
+    url: string;
+    description?: string;
+    owner: Owner;
+}
+
+
+type OutputRepository = Omit<Repository, 'user'>;
+
 type Repository = Partial<Document> & {
     id: Types.ObjectId | string;
     user: Types.ObjectId | string;
     name: string;
     url: string;
+    description: string;
+    owner:{
+        login: string;
+    };
 }
 type RepositoryTest = Partial<Repository>
 
@@ -56,4 +80,6 @@ export type {
 	RepositoryInput,
 	RepositoryTest,
 	Credentials,
+	OutputRepository,
+	GithubRepository
 };
