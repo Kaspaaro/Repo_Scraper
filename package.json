@@ -16,6 +16,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@apollo/client": "^3.9.6",
     "@apollo/server": "^4.10.0",
     "@graphql-tools/load-files": "^7.0.0",
     "@octokit/graphql-schema": "^14.58.0",
@@ -23,13 +24,13 @@
     "@testing-library/react": "^14.2.1",
     "@testing-library/user-event": "^13.5.0",
     "@types/node": "^16.18.80",
-    "@types/react": "^18.2.55",
+    "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.19",
     "concurrently": "^8.2.2",
     "copyfiles": "^2.4.1",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.4.5",
     "express": "^4.18.2",
     "graphql": "^16.8.1",
     "graphql-middleware": "^6.1.35",
@@ -68,9 +69,9 @@
     "@testing-library/jest-dom": "^6.4.2",
     "@types/cors": "^2.8.17",
     "@types/jest": "^29.5.12",
+    "@types/react": "^18.2.64",
     "@types/randomstring": "^1.1.12",
     "@types/supertest": "^6.0.2",
-    "dotenv-webpack": "^8.0.1",
     "eslint": "^8.56.0",
     "eslint-config-semistandard": "^17.0.0",
     "eslint-config-standard": "^17.1.0",
@@ -81,7 +82,6 @@
     "nodemon": "^3.1.0",
     "supertest": "^6.3.4",
     "ts-jest": "^29.1.2",
-    "ts-node": "^10.9.2",
-    "webpack": "^5.90.3"
+    "ts-node": "^10.9.2"
   }
 }

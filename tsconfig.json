@@ -10,9 +10,9 @@
     "moduleResolution": "node",
     "strict": true,
     "skipLibCheck": true,
-    "jsx": "react-jsx",
     "allowJs": true,
     "types": ["node", "jest"],
+    "jsx": "react-jsx"
   },
   "include": ["./*.js", "src/**/*.ts", "test/**/*.ts","src"]
 }
