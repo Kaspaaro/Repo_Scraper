@@ -18,13 +18,18 @@ module.exports = {
 	plugins: ['react', '@typescript-eslint'],
 	rules: {
 		indent: ['error', 'tab'],
-		'linebreak-style': ['error', 'unix'],
+		'linebreak-style': 'off',
 		quotes: ['error', 'single'],
 		semi: ['error', 'always'],
-		'@typescript-eslint/no-unused-vars': 'error',
+		'@typescript-eslint/no-unused-vars': 'off',
 		'@typescript-eslint/explicit-function-return-type': 'off',
 		'@typescript-eslint/no-explicit-any': 'error',
 		'@typescript-eslint/explicit-module-boundary-types': 'off',
 		'@typescript-eslint/no-duplicate-imports': 'error',
 	},
+	settings: {
+		react: {
+			version: 'detect',
+		},
+	}
 };

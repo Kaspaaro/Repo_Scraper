@@ -1,2 +1,4 @@
 import userReslover from './userResolver';
-export default [userReslover];
+import githubApiResolver from './githubApiResolver';
+import favoritesResolver from './favoritesResolver';
+export default [userReslover,githubApiResolver, favoritesResolver];

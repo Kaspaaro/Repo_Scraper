@@ -1,0 +1,44 @@
+.registerContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 600px;
+    height: 700px;
+    opacity: 0;
+    background-color: rgb(36,41,47);
+    transition: all 0.5s ease;
+}
+.registerContainer.visible {
+    opacity: 1;
+}
+.containerLoginButton{
+    padding: 2%;
+    fill: #212121;
+    max-width: 276px;
+    max-height: 68px;
+}
+.loginButtonParagraph{
+    color: aliceblue;
+}
+.containerRegisterButton{
+    padding: 2%;
+    fill: #212121;
+    max-width: 276px;
+    max-height: 68px;
+}
+
+.containerButtonText{
+    position: absolute;
+    font-family: 'Noto Sans', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    fill: white;
+}
+
+.selectiveRegisterButtonParagraph{
+    position: absolute;
+    z-index: 3;
+    top: auto;
+    left: auto;
+}

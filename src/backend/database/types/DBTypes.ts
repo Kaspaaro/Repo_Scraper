@@ -7,6 +7,23 @@ type User = Partial<Document> & {
     role: 'user' | 'admin';
     password: string;
 };
+type GithubUser = {
+    data: {
+        user: {
+            name: string;
+        };
+    }
+};
+
+type Repository = Partial<Document> & {
+    id: Types.ObjectId | string;
+    user: Types.ObjectId | string;
+    name: string;
+    url: string;
+}
+type RepositoryTest = Partial<Repository>
+
+type RepositoryInput = Omit<Repository, 'id'>;
 
 type UserOutput = Omit<User, 'password' | 'role'>;
 
@@ -15,6 +32,12 @@ type UserInput = Omit<User, 'id' | 'role'>;
 type UserTest = Partial<User>;
 
 type LoginUser = Omit<User, 'password'>;
+
+type Credentials = {
+    user_name: string;
+    email: string;
+    password: string;
+};
 
 type TokenContent = {
     token: string;
@@ -28,4 +51,9 @@ export type {
 	UserTest,
 	LoginUser,
 	TokenContent,
+	GithubUser,
+	Repository,
+	RepositoryInput,
+	RepositoryTest,
+	Credentials,
 };

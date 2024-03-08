@@ -17,7 +17,6 @@ type LoginResponse = MessageResponse & {
     user: UserOutput;
 };
 
-
 export type {
 	MessageResponse,
 	ErrorResponse,
