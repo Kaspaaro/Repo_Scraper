@@ -43,6 +43,7 @@ describe('Test GraphQL API', () => {
 	it('should add a new repository to favorites', async () => {
 		const vars = {
 			input: {
+				node_id: 'TEST_ID',
 				name: 'Test Repository',
 				url: 'testRepo.com',
 			},

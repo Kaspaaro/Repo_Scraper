@@ -68,4 +68,4 @@ const getRepositoriesByIds = async (listID: string[]) => {
 	console.log('repos', repos.data.nodes);
 };
 
-export {getRepositoriesByUsername, getRepositories};
+export {getRepositoriesByUsername, getRepositories, getRepositoriesByIds};
