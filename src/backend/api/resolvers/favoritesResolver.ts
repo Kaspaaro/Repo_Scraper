@@ -7,6 +7,9 @@ export default {
 	Query: {
 		favorites: async (_parent: undefined, args: {user: string}, context:MyContext) => {
 			isLoggedIn(context);
+			//const fetchReposFromDB
+			//fetch all repositories from github(user repos node_id)
+
 			return favoriteModel.find({user: context.userdata?.user._id});
 		}
 	},
