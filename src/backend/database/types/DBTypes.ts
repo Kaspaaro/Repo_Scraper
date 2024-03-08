@@ -32,6 +32,19 @@ type Node = {
     owner: Owner;
 }
 
+type UserRepositories = {
+    user: {
+        name: string;
+        repositories: {
+            nodes: Node[];
+        }
+    }
+}
+
+type Repositories = {
+    data: [Node]
+}
+
 
 type OutputRepository = Omit<Repository, 'user'>;
 
@@ -81,5 +94,7 @@ export type {
 	RepositoryTest,
 	Credentials,
 	OutputRepository,
-	GithubRepository
+	GithubRepository,
+	UserRepositories,
+	Repositories,
 };
