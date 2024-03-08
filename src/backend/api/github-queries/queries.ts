@@ -10,19 +10,24 @@ const getRepositories =  async () => {
 	const query = await octokit.request('GET /repositories',
 		{
 			visibility: 'public',
-			per_page: 100,
+			per_page: 5,
 			sort: 'updated',
 			page: 1
 		},
 	);
-	console.log('query', query);
+	const maps = query.data.map(repo => { return repo.contents_url;});
+	console.log('urls', maps[0]);
+	const query2 = await octokit.request(`GET ${maps[0]}`, {
+		path: 'README.md'
+	});
+	console.log('query2', query2.data.download_url);
 };
 
 const getRepositoriesByUsername = async (username: string) => {
 	const query = `query {
         user(login: "${username}") {
             name
-            repositories(first: 100) {
+            repositories(first: 10) {
                 nodes {
                     id
                     name
