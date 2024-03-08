@@ -1,26 +1,32 @@
 import {Octokit} from 'octokit';
-import {Repositories, UserRepositories} from '../../database/types/DBTypes';
+import {GithubRepository, Repositories, UserRepositories} from '../../database/types/DBTypes';
+import app from '../../app';
 
 const octokit = new Octokit({
 	auth: process.env.GITHUB_TOKEN,
 	userAgent: 'octokit/rest.js v1.2.3',
 });
 
-const getRepositories =  async () => {
+const getRepositories =  async (page: number) => {
 	const query = await octokit.request('GET /repositories',
 		{
 			visibility: 'public',
-			per_page: 5,
+			per_page: 100,
 			sort: 'updated',
-			page: 1
+			page: page
 		},
 	);
 	const maps = query.data.map(repo => { return repo.contents_url;});
-	console.log('urls', maps[0]);
 	const query2 = await octokit.request(`GET ${maps[0]}`, {
-		path: 'README.md'
+		path: 'README.md',
+		headers: {
+			'Accept': 'application/vnd.github.v3.raw'
+		}
 	});
-	console.log('query2', query2.data.download_url);
+	const file = query2.data;
+	console.log('file', file);
+	//console.log('query2', query2.data.download_url);
+	return file;
 };
 
 const getRepositoriesByUsername = async (username: string) => {
@@ -44,4 +50,22 @@ const getRepositoriesByUsername = async (username: string) => {
 	console.log('repos', repos.user);
 };
 
-export {getRepositoriesByUsername, getRepositories};
+const getRepositoriesByIds = async (listID: string[]) => {
+	const query = `query {
+		nodes(ids: ["${listID.join('","')}"]) {
+			... on Repository {
+				id
+				name
+				url
+				description
+				owner {
+					login
+				}
+			}
+		}
+	}`;
+	const repos:GithubRepository = await octokit.graphql(query);
+	console.log('repos', repos.data.nodes);
+};
+
+export {getRepositoriesByUsername, getRepositories, getRepositoriesByIds};

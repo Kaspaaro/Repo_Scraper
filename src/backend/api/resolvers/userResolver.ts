@@ -4,6 +4,8 @@ import fetchData from '../../auth-functions/fetchData';
 import {UserResponse} from '../../database/types/MessageTypes';
 import {isAdmin, isLoggedIn} from '../../auth-functions/authorize';
 import {favoriteModel} from '../model/favoriteModel';
+import {getRepositoriesByIds} from "../github-queries/queries";
+
 
 export default {
 
@@ -88,9 +90,6 @@ export default {
 					body: JSON.stringify(args.user),
 				},
 			);
-			// if favoriteModel.find({user: args.id}) > 0 {
-			// 	favoritesResolver.Query.
-			// }
 		},
 		deleteUser: async (_parent: undefined, args: NonNullable<unknown>, context: MyContext) => {
 			isLoggedIn(context);

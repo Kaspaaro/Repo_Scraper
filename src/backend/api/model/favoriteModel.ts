@@ -19,6 +19,11 @@ const favModel = new mongoose.Schema({
 		ref: 'User',
 		required: true,
 	},
+	node_id: {
+		type: String,
+		required: true,
+		unique: true
+	},
 });
 
 export const favoriteModel = mongoose.model<Repository>('Favorite', favModel);
