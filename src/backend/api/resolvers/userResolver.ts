@@ -89,7 +89,7 @@ export default {
 				},
 			);
 			// if favoriteModel.find({user: args.id}) > 0 {
-			// 	favoritesResolver.Query.
+			// 	const ids = await favoriteModel.find({user: args.id}, );
 			// }
 		},
 		deleteUser: async (_parent: undefined, args: NonNullable<unknown>, context: MyContext) => {

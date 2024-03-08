@@ -3,7 +3,6 @@ import {RepositoryInput} from '../../database/types/DBTypes';
 import {isLoggedIn} from '../../auth-functions/authorize';
 import {MyContext} from '../../database/types/MyContext';
 
-
 export default {
 	Query: {
 		favorites: async (_parent: undefined, args: {user: string}, context:MyContext) => {
