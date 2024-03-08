@@ -12,12 +12,17 @@ export default {
 	},
 	Mutation: {
 		addRepository: async (_parent: undefined, args: {input: RepositoryInput}, context: MyContext) => {
+			console.log('arrrggggssss', args.input);
 			isLoggedIn(context);
 			return await favoriteModel.create({...args.input, user: context.userdata?.user._id});
 		},
 		removeRepository: async (_parent: undefined, args: {id: string}, context: MyContext) => {
 			isLoggedIn(context);
 			return favoriteModel.findOneAndDelete({_id: args.id, user: context.userdata?.user._id});
+		},
+		updateRepository: async (_parent: undefined, args: {id: string, input: RepositoryInput}, context: MyContext) => {
+			isLoggedIn(context);
+			return favoriteModel.findOneAndUpdate({_id: args.id, user: context.userdata?.user._id}, args.input, {new: true});
 		}
 	}
 };

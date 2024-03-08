@@ -17,6 +17,8 @@ const addRepository = (
                             id
                             name
                             url
+                            updated_at
+                            node_id
                           }
                         }`,
 				variables: vars,

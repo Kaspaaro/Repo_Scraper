@@ -46,6 +46,7 @@ describe('Test GraphQL API', () => {
 				node_id: 'TEST_ID',
 				name: 'Test Repository',
 				url: 'testRepo.com',
+				updated_at: new Date(),
 			},
 		};
 		testRepo =  await addRepository(app, userData.token!, vars);

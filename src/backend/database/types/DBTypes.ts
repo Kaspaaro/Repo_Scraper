@@ -53,10 +53,12 @@ type Repository = Partial<Document> & {
     user: Types.ObjectId | string;
     name: string;
     url: string;
+    updated_at: Date;
     description: string;
     owner:{
         login: string;
     };
+
 }
 type RepositoryTest = Partial<Repository>
 

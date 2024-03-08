@@ -24,6 +24,11 @@ const favModel = new mongoose.Schema({
 		required: true,
 		unique: true
 	},
+	updated_at: {
+		type: Date,
+		default: Date.now,
+		required: true,
+	},
 });
 
 export const favoriteModel = mongoose.model<Repository>('Favorite', favModel);
