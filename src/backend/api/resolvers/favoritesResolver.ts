@@ -7,17 +7,25 @@ export default {
 	Query: {
 		favorites: async (_parent: undefined, args: {user: string}, context:MyContext) => {
 			isLoggedIn(context);
+			//const fetchReposFromDB
+			//fetch all repositories from github(user repos node_id)
+
 			return favoriteModel.find({user: context.userdata?.user._id});
 		}
 	},
 	Mutation: {
 		addRepository: async (_parent: undefined, args: {input: RepositoryInput}, context: MyContext) => {
+			console.log('arrrggggssss', args.input);
 			isLoggedIn(context);
 			return await favoriteModel.create({...args.input, user: context.userdata?.user._id});
 		},
 		removeRepository: async (_parent: undefined, args: {id: string}, context: MyContext) => {
 			isLoggedIn(context);
 			return favoriteModel.findOneAndDelete({_id: args.id, user: context.userdata?.user._id});
+		},
+		updateRepository: async (_parent: undefined, args: {id: string, input: RepositoryInput}, context: MyContext) => {
+			isLoggedIn(context);
+			return favoriteModel.findOneAndUpdate({_id: args.id, user: context.userdata?.user._id}, args.input, {new: true});
 		}
 	}
 };

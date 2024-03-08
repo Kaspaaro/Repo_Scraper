@@ -8,6 +8,14 @@ const octokit = new Octokit({
 });
 
 const getRepositories =  async (page: number) => {
+	const data = await octokit.request('GET /rate_limit', {
+		headers: {
+			'X-GitHub-Api-Version': '2022-11-28'
+		}
+
+	});
+	console.log('data', data);
+
 	const query = await octokit.request('GET /repositories',
 		{
 			visibility: 'public',
@@ -24,7 +32,6 @@ const getRepositories =  async (page: number) => {
 		}
 	});
 	const file = query2.data;
-	console.log('file', file);
 	//console.log('query2', query2.data.download_url);
 	return file;
 };
