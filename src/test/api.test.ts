@@ -38,31 +38,31 @@ describe('Test GraphQL API', () => {
 			},
 		};
 		userData = await loginUser(app, vars);
-	}, 3000);
+	});
 
 	it('should add a new repository to favorites', async () => {
 		const vars = {
 			input: {
-				node_id: 'TEST_ID',
-				name: 'Test Repository',
-				url: 'testRepo.com',
+				node_id: 'TEST_ID' + randomstring.generate(7),
+				name: 'Test Repository' + randomstring.generate(7),
+				url: 'testRepo-' + randomstring.generate(7)+ '.com',
 				updated_at: new Date(),
 			},
 		};
 		testRepo =  await addRepository(app, userData.token!, vars);
 		console.log('testRepo', testRepo);
-	}, 3000);
+	});
 
 	it('should get all repositories from favorites', async () => {
 		await fetchAllRepositories(app, userData.token!);
-	}, 3000);
+	});
 
 	it('should delete a repository from favorites', async () => {
 		await deleteRepository(app, userData.token!, testRepo.id!);
-	}, 3000);
+	});
 
 	// test delete user based on token
 	it('should delete current user', async () => {
 		await deleteUser(app, userData.token!);
-	}, 3000);
+	});
 });

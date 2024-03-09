@@ -1,7 +1,5 @@
 import {Octokit} from 'octokit';
 import {GithubRepository, Repositories, UserRepositories} from '../../database/types/DBTypes';
-import app from '../../app';
-
 const octokit = new Octokit({
 	auth: process.env.GITHUB_TOKEN,
 	userAgent: 'octokit/rest.js v1.2.3',

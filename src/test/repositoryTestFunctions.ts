@@ -14,7 +14,7 @@ const addRepository = (
 			.send({
 				query: `mutation Mutation($input: RepositoryInput!) {
                           addRepository(input: $input) {
-                            id
+                          	id
                             name
                             url
                             updated_at
