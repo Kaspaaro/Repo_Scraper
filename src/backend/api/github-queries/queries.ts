@@ -7,6 +7,8 @@ const octokit = new Octokit({
 	userAgent: 'octokit/rest.js v1.2.3',
 });
 
+octokit.auth({ type: 'token', token: process.env.GITHUB_TOKEN });
+
 const getRepositories =  async (page: number) => {
 	const data = await octokit.request('GET /rate_limit', {
 		headers: {

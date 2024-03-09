@@ -10,7 +10,6 @@ export default async (req: Request): Promise<MyContext> => {
 	const octokit = new Octokit({
 		auth: process.env.GITHUB_TOKEN
 	});
-	await octokit.auth();
 	
 	if (authHeader) {
 		try {

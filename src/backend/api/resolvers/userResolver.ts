@@ -4,7 +4,7 @@ import fetchData from '../../auth-functions/fetchData';
 import {UserResponse} from '../../database/types/MessageTypes';
 import {isAdmin, isLoggedIn} from '../../auth-functions/authorize';
 import {favoriteModel} from '../model/favoriteModel';
-import {getRepositoriesByIds} from "../github-queries/queries";
+import {getRepositoriesByIds} from '../github-queries/queries';
 
 
 export default {
@@ -13,6 +13,7 @@ export default {
 		owner: async (parent: Repository) => {
 			return await fetchData<User>(`${process.env.REACT_APP_AUTH_URL}/users/` + parent.user);
 		},
+
 	},
 	Query: {
 		users: async () => {
