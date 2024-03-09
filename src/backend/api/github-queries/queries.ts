@@ -52,7 +52,7 @@ const getRepositoriesByUsername = async (username: string) => {
         }
     }`;
 	const repos:UserRepositories = await octokit.graphql(query);
-	console.log('repos', repos.user);
+	return repos.user.repositories.nodes;
 };
 
 const getRepositoriesByIds = async (listID: string[]) => {
@@ -63,6 +63,7 @@ const getRepositoriesByIds = async (listID: string[]) => {
 				name
 				url
 				description
+				updatedAt
 				owner {
 					login
 				}
@@ -70,7 +71,7 @@ const getRepositoriesByIds = async (listID: string[]) => {
 		}
 	}`;
 	const repos:GithubRepository = await octokit.graphql(query);
-	console.log('repos', repos.data.nodes);
+	return repos.nodes;
 };
 
 export {getRepositoriesByUsername, getRepositories, getRepositoriesByIds};

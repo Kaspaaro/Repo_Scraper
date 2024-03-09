@@ -20,15 +20,14 @@ type Owner = {
 }
 
 type GithubRepository = {
-    data: {
-        nodes: Node[];
-    }
+    nodes: Node[];
 }
 type Node = {
     id: string;
     name: string;
     url: string;
     description?: string;
+    updatedAt: Date;
     owner: Owner;
 }
 
@@ -45,14 +44,12 @@ type Repositories = {
     data: [Node]
 }
 
-
-type OutputRepository = Omit<Repository, 'user'>;
-
 type Repository = Partial<Document> & {
     id: Types.ObjectId | string;
     user: Types.ObjectId | string;
     name: string;
     url: string;
+    node_id: string;
     updated_at: Date;
     description: string;
     owner:{
@@ -95,7 +92,6 @@ export type {
 	RepositoryInput,
 	RepositoryTest,
 	Credentials,
-	OutputRepository,
 	GithubRepository,
 	UserRepositories,
 	Repositories,
