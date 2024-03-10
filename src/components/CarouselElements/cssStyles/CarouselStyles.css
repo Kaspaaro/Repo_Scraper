@@ -1,0 +1,18 @@
+.mainCarouselComponent{
+    width: 100%;
+}
+.stackComponent{
+    justify-content: center;
+    align-items: center;
+}
+.skill-card{
+    width: auto;
+    height: 100%;
+    margin: 0 10px auto 0;
+    justify-content: center;
+}
+.card-body{
+    width: 200px;
+    min-width: 100px;
+    height: fit-content;
+}

@@ -1,18 +1,19 @@
 .searchBar{
     width: 50%;
-    height: 24px;
+    height: 30px;
     background-color: #0D1117;
     border-bottom-left-radius: 10px;
     border-top-left-radius: 10px;
     border: 1px solid #30363D;
     color:white;
-
+    font-size: small;
 }
 .filterButton{
-    height: 26px;
+    height: 30px;
     border-radius: 0 10px 10px 0;
     background-color: #E8E8E8;
     color: black;
+    font-size: small;
 
 }
 .filterOption{

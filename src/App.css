@@ -4,7 +4,6 @@
   background-color: #212121;
 
 }
-
 .App-logo {
   height: 20vmin;
   pointer-events: none;
@@ -25,8 +24,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 100vh;
+  margin-bottom: 10vh;
   width: 90%;
+  position: sticky;
 }
 
 .App-link {
