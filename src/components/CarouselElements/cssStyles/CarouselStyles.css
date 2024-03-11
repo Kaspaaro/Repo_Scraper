@@ -1,5 +1,7 @@
 .mainCarouselComponent{
     width: 100%;
+    height: 18rem;
+
 }
 .stackComponent{
     justify-content: center;

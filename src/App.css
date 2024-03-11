@@ -1,8 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
 
 .App {
   text-align: center;
   background-color: #212121;
-
+  font-family: 'Noto Sans', sans-serif;
 }
 .App-logo {
   height: 20vmin;
@@ -27,6 +28,9 @@
   margin-bottom: 10vh;
   width: 90%;
   position: sticky;
+}
+.carouselHolder{
+  width: 70%;
 }
 
 .App-link {
