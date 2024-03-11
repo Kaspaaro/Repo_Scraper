@@ -15,6 +15,6 @@ const AuthButton_Container = () =>{
 				</Col>
 			</Row>
 		</Form>
-	);  
+	);
 };
 export default AuthButton_Container;

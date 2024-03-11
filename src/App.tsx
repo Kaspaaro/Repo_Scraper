@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useEffect, useMemo, useRef, useState} from 'react';
 import './App.css';
 import {ApolloClient, ApolloProvider, InMemoryCache} from '@apollo/client';
 import MarkdownTestFunc from './frontend/MarkdownTestPage';
@@ -12,19 +12,39 @@ import Login_Button from './components/AuthenticateButtons/Buttons/Login_Button'
 import Signup_Button from './components/AuthenticateButtons/Buttons/Signup_Button';
 import AuthButton_Container from './components/AuthenticateButtons/Container/AuthButton_Container';
 import MainSideBarElement from './components/SideBar/SideBarComponents/MainSideBarElement';
-
+import {keyboard} from '@testing-library/user-event/dist/keyboard';
+import {Context} from './components/MyContext';
 const client = new ApolloClient({
 	uri: `${process.env.GRAPHQL_SERVER}`,
 	cache: new InMemoryCache(),
 });
 function App() {
-	return(
+	const [isOpen, _setIsOpen] = useState(false);
+	const [mode, _setMode] = useState(false);
+	const handleOpen = (modeboolean:boolean) => {
+		_setIsOpen(!isOpen);
+		if (modeboolean) {
+			_setMode(true);
+		}else{
+			_setMode(false);
+		}
+	};
+
+
+	const value = {isOpen,handleOpen,mode};
+
+	return (
 		<ApolloProvider client={client}>
 			<>
 				<div className="App">
 					<MainSideBarElement/>
 					<header className="App-header">
-						<AuthButton_Container/>
+						<Context.Provider value={value}>
+							<CredentialsPopup/>
+							<AuthButton_Container/>
+						</Context.Provider>
+
+
 						<Logo className="App-logo"/>
 
 						<div className={'searchBarContainer'}>
