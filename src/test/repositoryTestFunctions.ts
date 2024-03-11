@@ -92,5 +92,4 @@ const fetchAllRepositories = (url: string | Application, token: string) => {
 	});
 };
 
-
 export {addRepository, deleteRepository, fetchAllRepositories};

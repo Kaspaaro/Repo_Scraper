@@ -6,24 +6,41 @@ import {getRepositoriesByIds, getRepositoriesByUsername} from '../github-queries
 
 export default {
 	Query: {
+		/**
+		 * @param _parent
+		 * @param args logged user id
+		 * @param context logged user data
+		 *
+		 * Fetches the favorite repositories of the user from the database.
+		 * If the user is logged in then it will return the favorite repositories of the user,
+		 * and if the count of the favorite repositories is greater than 0, then it will fetch the repositories from the github api
+		 * and compare the updated_at date of the favorite repository with the updated_at date of the repository from the github api.
+		 * If the repository has been updated recently then it will update the updated_at date of the favorite repository in the database and
+		 * returns the data of favorite repos of the user to usable in ui.
+		 */
 		favorites: async (_parent: undefined, args: {user: string}, context:MyContext) => {
 			isLoggedIn(context);
-			const userRepos = await getRepositoriesByUsername('SmuuSka');
-			const favorites= await favoriteModel.find({user: context.userdata?.user._id}, 'node_id | updated_at');
+			const favorites= await favoriteModel.find({user: context.userdata?.user._id});
 			if (favorites.length > 0) {
 				const ids = favorites.map((fav) => fav.node_id);
 				const repos = await getRepositoriesByIds(ids);
+				console.log('repos', repos);
 				let index = 0;
-				repos.map((repo) => {
+				repos.map(async (repo) => {
 					const date_repo = new Date(repo.updatedAt);
 					const date_fav = new Date(favorites[index].updated_at);
-					if(date_repo > date_fav) {
-						console.log('repository has been updated recently ', repo);
+					if (date_repo > date_fav) {
+						try {
+							console.log('repository has been updated recently ', repo);
+							await favoriteModel.findOneAndUpdate({node_id: repo.id}, {updated_at: date_repo}, {new: true});
+						}catch (e) {
+							console.log('error', e);
+						}
 					}
 					index++;
 				});
 			}
-			return favoriteModel.find({user: context.userdata?.user._id});
+			return favorites;
 		}
 	},
 	Mutation: {
