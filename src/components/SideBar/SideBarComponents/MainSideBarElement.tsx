@@ -14,6 +14,23 @@ const MainSideBarElement = () =>{
 			<div className={'sidebarContainer'}>
 				<div className={`sidebarContent ${isOpen ? 'open' : ''}`}>
 					<SideBarButton className={'sidebarButton clickable'} onClick={()=>{handleOpen();}}/>
+					<div className={'userDetails'}>
+						<h5 className={'userNameDisplay'}>Visitor</h5>
+					</div>
+
+					<h6 className={'favRepoTitle'}>Favorite Repositories</h6>
+
+					<div className={'favoriteRepos'}>
+						<div className={'repoItem'}>
+							<h6 className={'repoName'}>Repo 1</h6>
+						</div>
+						<div className={'repoItem'}>
+							<h6 className={'repoName'}>Repo 2</h6>
+						</div>
+						<div className={'repoItem'}>
+							<h6 className={'repoName'}>Repo 3</h6>
+						</div>
+					</div>
 				</div>
 
 			</div>

@@ -11,8 +11,8 @@
     position: absolute;
     background-color: #212121;
     top: 0;
-    left: -18%;
-    width: 18%;
+    left: -13%;
+    width: 13%;
     height: 100%;
     border-right-style: solid;
     border-right-width: 2px;
@@ -23,4 +23,28 @@
 
 .sidebarContent.open{
     left: 0;
+}
+
+/*Sidebars insides */
+.userDetails{
+    display: flex;
+    background-color: #2F2F2F;
+    margin-top: 4%;
+    width: 90%;
+    height: 8%;
+    text-align: center;
+    align-items: center;
+}
+.userNameDisplay{
+    color: white;
+    margin: 10% 10% 10% 5%;
+}
+.favoriteRepos{
+    background-color: #adaaaa;
+}
+.favRepoTitle{
+    background-color: #303737;
+    color: white;
+    text-align: center;
+    margin-top: 5%;
 }
