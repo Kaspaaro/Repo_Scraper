@@ -11,6 +11,7 @@ import ResultCarousel from './components/CarouselElements/Carousel';
 import Login_Button from './components/AuthenticateButtons/Buttons/Login_Button';
 import Signup_Button from './components/AuthenticateButtons/Buttons/Signup_Button';
 import AuthButton_Container from './components/AuthenticateButtons/Container/AuthButton_Container';
+import MainSideBarElement from './components/SideBar/SideBarComponents/MainSideBarElement';
 
 const client = new ApolloClient({
 	uri: `${process.env.GRAPHQL_SERVER}`,
@@ -21,6 +22,7 @@ function App() {
 		<ApolloProvider client={client}>
 			<>
 				<div className="App">
+					<MainSideBarElement/>
 					<header className="App-header">
 						<AuthButton_Container/>
 						<Logo className="App-logo"/>
