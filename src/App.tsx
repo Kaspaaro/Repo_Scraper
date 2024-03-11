@@ -8,12 +8,10 @@ import RepoCard from './components/CarouselElements/RepoCard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CredentialsPopup from './components/Register_LoginContainer/CredentialsPopup';
 import ResultCarousel from './components/CarouselElements/Carousel';
-import Login_Button from './components/AuthenticateButtons/Buttons/Login_Button';
-import Signup_Button from './components/AuthenticateButtons/Buttons/Signup_Button';
 import AuthButton_Container from './components/AuthenticateButtons/Container/AuthButton_Container';
 import MainSideBarElement from './components/SideBar/SideBarComponents/MainSideBarElement';
-import {keyboard} from '@testing-library/user-event/dist/keyboard';
 import {Context} from './components/MyContext';
+import RepoInfo from './components/InformationElement/RepoInfo';
 const client = new ApolloClient({
 	uri: `${process.env.GRAPHQL_SERVER}`,
 	cache: new InMemoryCache(),
@@ -36,14 +34,14 @@ function App() {
 	return (
 		<ApolloProvider client={client}>
 			<>
+
 				<div className="App">
-					<MainSideBarElement/>
+
 					<header className="App-header">
 						<Context.Provider value={value}>
 							<CredentialsPopup/>
 							<AuthButton_Container/>
 						</Context.Provider>
-
 
 						<Logo className="App-logo"/>
 
@@ -53,10 +51,15 @@ function App() {
 						<div className={'carouselHolder'}>
 							<ResultCarousel/>
 						</div>
-
+						<RepoInfo/>
+						<MainSideBarElement/>
 					</header>
+
 				</div>
+
 			</>
+
+
 		</ApolloProvider>
 	);
 }
