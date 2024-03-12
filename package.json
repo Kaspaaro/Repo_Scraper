@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"node dist/src/backend/index.js\" \" react-scripts start \"",
     "dev": "nodemon src/backend/index.ts",
     "build": "concurrently \"react-scripts build\" \"tsc\"",
     "copyGraphql": "copyfiles --error src/backend/api/schemas/*.graphql dist",

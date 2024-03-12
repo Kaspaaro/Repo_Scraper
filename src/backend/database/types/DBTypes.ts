@@ -37,6 +37,12 @@ type GithubRepository = {
     nodes: Node[];
 }
 
+type Languages = {
+    nodes: {
+        name: string;
+    }[];
+}
+
 type GithubOutputRepositories ={
     id: number;
     name: string;
@@ -55,6 +61,7 @@ type Node = {
     description?: string;
     updatedAt: Date;
     owner: Owner;
+    languages: Languages;
 }
 
 type UserRepositories = {
