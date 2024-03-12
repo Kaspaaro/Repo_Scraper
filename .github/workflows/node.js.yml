@@ -26,7 +26,7 @@ jobs:
           JWT_SECRET: ${{secrets.JWT_SECRET}}
           SECRET_USERNAME: ${{secrets.SECRET_USERNAME}}
           SECRET_PASSWORD: ${{secrets.SECRET_PASSWORD}}
-          GITHUB_TOKEN: {{secrets.TOKEN_API}
+          API_TOKEN: {{secrets.TOKEN_API}
         run: |
           touch .env
             echo "DATABASE_URL=$DATABASE_URL" >> .env
@@ -34,7 +34,7 @@ jobs:
             echo "JWT_SECRET=$JWT_SECRET" >> .env
             echo "SECRET_USERNAME=$SECRET_USERNAME" >> .env
             echo "SECRET_PASSWORD=$SECRET_PASSWORD" >> .env
-            echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> .env
+            echo "API_TOKEN=$API_TOKEN" >> .env
           npm install
 
       - name: Build

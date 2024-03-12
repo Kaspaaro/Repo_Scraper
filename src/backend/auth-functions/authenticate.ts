@@ -7,11 +7,6 @@ import {Octokit} from 'octokit';
 
 export default async (req: Request): Promise<MyContext> => {
 	const authHeader = req.headers.authorization;
-	const octokit = new Octokit({
-		auth: process.env.GITHUB_TOKEN
-	});
-	await octokit.auth();
-
 	if (authHeader) {
 		try {
 			const token = authHeader.split(' ')[1];
