@@ -7,7 +7,7 @@ import {
 } from '../../database/types/DBTypes';
 import CustomError from '../../CustomError';
 const octokit = new Octokit({
-	auth: process.env.API_TOKEN,
+	auth: process.env.REACT_APP_API_TOKEN,
 	userAgent: 'octokit/rest.js v1.2.3',
 });
 
@@ -139,4 +139,4 @@ const getRepositoriesByName = async (name: string) => {
 	}
 };
 
-export {getRepositoriesByUsername, getRepositories, getRepositoriesByIds, getRepositoriesByName, fetchReadme};
+export {getRepositoriesByUsername, getRepositories, getRepositoriesByIds, getRepositoriesByName, fetchReadme,getRatelimit};

@@ -1,15 +1,17 @@
 import {Card, Col, Row, Carousel, Stack} from 'react-bootstrap';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import RepoCard from './RepoCard';
 import './cssStyles/CarouselStyles.css';
 import {SkillsData} from '../SearchBarElements/testjson';
+import {SearchBarContext} from '../MyContext';
+import {getRatelimit, getRepositoriesByName} from '../../backend/api/github-queries/queries';
 const ResultCarousel = () => {
+	const searchContext = useContext(SearchBarContext);
 	const [index, setIndex] = useState(0);
-
-	const handleSelect = (selectedIndex:number) => {
+	const skillsData = SkillsData;
+	const handleSelect = async (selectedIndex:number) => {
 		setIndex(selectedIndex);
 	};
-	const skillsData = SkillsData;
 	return (
 		<>
 			<Carousel className={'mainCarouselComponent'} interval={null} data-bs-theme="dark" activeIndex={index} onSelect={handleSelect}>

@@ -11,13 +11,13 @@ const repoInfo = () =>{
 						<h3>README</h3>
 					</div>
 				</Col>
-				<Col className={'row-cols-2 overflow-hidden'} lg={9}>
+				<Col className={'row-cols-2 overflow-hidden mb-3'} lg={9}>
 					<div className={'repoInfo'}>
 						<MarkdownTestFunc/>
 					</div>
 
 				</Col>
-				<Col className={'overflow-hidden'}>
+				<Col className={'overflow-hidden mb-3'}>
 					<Row className={'repoAbout h-100'} lg={1}>
 						<Col>
 							<div className={'title-README'}>
@@ -25,14 +25,6 @@ const repoInfo = () =>{
 							</div>
 							<div className={'descBox h-50'}>
 								<p className={'fs-6'}>Description</p>
-							</div>
-						</Col>
-						<Col>
-							<div className={'title-README'}>
-								<h4 className={'p-2 mt-2'}>Collaborators</h4>
-							</div>
-							<div className={'descBox h-50'}>
-								<p className={'fs-6'}>collabs</p>
 							</div>
 						</Col>
 						<Col>
