@@ -2,7 +2,14 @@ import {favoriteModel} from '../model/favoriteModel';
 import {RepositoryInput} from '../../database/types/DBTypes';
 import {isLoggedIn} from '../../auth-functions/authorize';
 import {MyContext} from '../../database/types/MyContext';
-import {getRepositoriesByIds, getRepositoriesByName, getRepositoriesByUsername, getRepositories, fetchReadme} from '../github-queries/queries';
+import {
+	getRepositoriesByIds,
+	getRepositoriesByName,
+	getRepositoriesByUsername,
+	getRepositories,
+	fetchReadme,
+	getRateLimit
+} from '../github-queries/queries';
 
 export default {
 	Query: {
@@ -43,18 +50,11 @@ export default {
 			return favorites;
 		},
 		test: async (_parent: undefined, args: {input: string}, context: MyContext) => {
-			// console.log('args', args.input);
-			// const repos = await getRepositories(0);
-			//console.log('repos in resolver', repos);
+			//await getRateLimit();
+			// const repos = await getRepositoriesByIds(['MDEwOlJlcG9zaXRvcnkx']);
+			// console.log('repos', repos);
 		}
-		// 	try {
-		// 		const readme = await fetchReadme(repos![0].content_url);
-		// 		console.log('readme', readme);
-		// 	}catch (e) {
-		// 		console.log('An error occurred while fetching repositories', e);
-		// 	}
-		// 	return 'test';
-		// }
+
 	},
 	Mutation: {
 		addRepository: async (_parent: undefined, args: {input: RepositoryInput}, context: MyContext) => {
