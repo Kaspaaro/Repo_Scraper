@@ -6,7 +6,7 @@ import randomstring from 'randomstring';
 import app from '../backend/app';
 import {adminDeleteUser, deleteUser, loginUser, postUser} from './userTestFuntions';
 import {addRepository, deleteRepository, fetchAllRepositories} from './repositoryTestFunctions';
-import {Simulate} from "react-dom/test-utils";
+import {Simulate} from 'react-dom/test-utils';
 import input = Simulate.input;
 describe('Test GraphQL API', () => {
 	beforeAll(async () => {

@@ -1,8 +1,8 @@
 import {favoriteModel} from '../model/favoriteModel';
-import {RepositoryInput,} from '../../database/types/DBTypes';
+import {RepositoryInput} from '../../database/types/DBTypes';
 import {isLoggedIn} from '../../auth-functions/authorize';
 import {MyContext} from '../../database/types/MyContext';
-import {getRepositoriesByIds, getRepositoriesByUsername} from '../github-queries/queries';
+import {getRepositoriesByIds, getRepositoriesByName, getRepositoriesByUsername, getRepositories, fetchReadme} from '../github-queries/queries';
 
 export default {
 	Query: {
@@ -26,7 +26,7 @@ export default {
 				const repos = await getRepositoriesByIds(ids);
 				console.log('repos', repos);
 				let index = 0;
-				repos.map(async (repo) => {
+				repos?.map(async (repo) => {
 					const date_repo = new Date(repo.updatedAt);
 					const date_fav = new Date(favorites[index].updated_at);
 					if (date_repo > date_fav) {
@@ -34,14 +34,27 @@ export default {
 							console.log('repository has been updated recently ', repo);
 							await favoriteModel.findOneAndUpdate({node_id: repo.id}, {updated_at: date_repo}, {new: true});
 						}catch (e) {
-							console.log('error', e);
+							console.log('An error occurred while updating a favorite repo', e);
 						}
 					}
 					index++;
 				});
 			}
 			return favorites;
+		},
+		test: async (_parent: undefined, args: {input: string}, context: MyContext) => {
+			// console.log('args', args.input);
+			// const repos = await getRepositories(0);
+			//console.log('repos in resolver', repos);
 		}
+		// 	try {
+		// 		const readme = await fetchReadme(repos![0].content_url);
+		// 		console.log('readme', readme);
+		// 	}catch (e) {
+		// 		console.log('An error occurred while fetching repositories', e);
+		// 	}
+		// 	return 'test';
+		// }
 	},
 	Mutation: {
 		addRepository: async (_parent: undefined, args: {input: RepositoryInput}, context: MyContext) => {
@@ -53,9 +66,5 @@ export default {
 			isLoggedIn(context);
 			return favoriteModel.findOneAndDelete({_id: args.id, user: context.userdata?.user._id});
 		},
-		updateRepository: async (_parent: undefined, args: {id: string, input: RepositoryInput}, context: MyContext) => {
-			isLoggedIn(context);
-			return favoriteModel.findOneAndUpdate({_id: args.id, user: context.userdata?.user._id}, args.input, {new: true});
-		}
 	}
 };
