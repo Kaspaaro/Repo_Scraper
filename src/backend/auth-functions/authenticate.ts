@@ -7,15 +7,11 @@ import {Octokit} from 'octokit';
 
 export default async (req: Request): Promise<MyContext> => {
 	const authHeader = req.headers.authorization;
-	const octokit = new Octokit({
-		auth: process.env.GITHUB_TOKEN
-	});
-	
 	if (authHeader) {
 		try {
 			const token = authHeader.split(' ')[1];
 			if (!process.env.JWT_SECRET) throw new Error('JWT_SECRET not defined');
-			console.log('token from 4-5 server: ', token);
+			//console.log('token from 4-5 server: ', token);
 			const user = await fetchData<UserResponse>(
 				`${process.env.REACT_APP_AUTH_URL}/users/token`,
 				{

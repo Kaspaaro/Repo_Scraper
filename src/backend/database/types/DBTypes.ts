@@ -1,4 +1,18 @@
 import {Document, Types} from 'mongoose';
+import {fetchReadme} from '../../api/github-queries/queries';
+
+interface Repot {
+    id: string;
+    name: string;
+    html_url: string;
+    node_id: string;
+    description: string;
+    owner: {
+        login: string;
+    };
+    contents_url: string;
+}
+
 
 type User = Partial<Document> & {
     id: Types.ObjectId | string;
@@ -20,15 +34,26 @@ type Owner = {
 }
 
 type GithubRepository = {
-    data: {
-        nodes: Node[];
-    }
+    nodes: Node[];
+}
+
+type GithubOutputRepositories ={
+    id: number;
+    name: string;
+    url: string;
+    node_id: string;
+    description: string | null;
+    owner:{
+        login: string;
+    };
+    content_url: string;
 }
 type Node = {
     id: string;
     name: string;
     url: string;
     description?: string;
+    updatedAt: Date;
     owner: Owner;
 }
 
@@ -41,18 +66,37 @@ type UserRepositories = {
     }
 }
 
+type GithubRepoType = {
+    id: string;
+    name: string;
+    html_url: string;
+    node_id: string;
+    description: string;
+    owner: {
+        login: string;
+    };
+    contents_url: string;
+}
+
 type Repositories = {
     data: [Node]
 }
 
-
-type OutputRepository = Omit<Repository, 'user'>;
+type SearchRepositoriesOutput = {
+    search: {
+        repositoryCount: number;
+        edges: {
+            node: Node[];
+        };
+    };
+}
 
 type Repository = Partial<Document> & {
     id: Types.ObjectId | string;
     user: Types.ObjectId | string;
     name: string;
     url: string;
+    node_id: string;
     updated_at: Date;
     description: string;
     owner:{
@@ -95,8 +139,11 @@ export type {
 	RepositoryInput,
 	RepositoryTest,
 	Credentials,
-	OutputRepository,
 	GithubRepository,
 	UserRepositories,
 	Repositories,
+	SearchRepositoriesOutput,
+	GithubOutputRepositories,
+	GithubRepoType,
+	Repot
 };

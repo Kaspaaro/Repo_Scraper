@@ -4,8 +4,10 @@ import {LoginResponse} from '../backend/database/types/MessageTypes';
 import {UserTest, RepositoryTest} from '../backend/database/types/DBTypes';
 import randomstring from 'randomstring';
 import app from '../backend/app';
-import {deleteUser, loginUser, postUser} from './userTestFuntions';
+import {adminDeleteUser, deleteUser, loginUser, postUser} from './userTestFuntions';
 import {addRepository, deleteRepository, fetchAllRepositories} from './repositoryTestFunctions';
+import {Simulate} from 'react-dom/test-utils';
+import input = Simulate.input;
 describe('Test GraphQL API', () => {
 	beforeAll(async () => {
 		await mongoose.connect(process.env.DATABASE_URL as string);
@@ -16,7 +18,9 @@ describe('Test GraphQL API', () => {
 	});
 
 	let userData: LoginResponse;
+	let userData2: LoginResponse;
 	let testRepo: RepositoryTest;
+	let adminData: LoginResponse;
 
 	const testUser: UserTest = {
 		user_name: 'Test User ' + randomstring.generate(7),
@@ -24,12 +28,20 @@ describe('Test GraphQL API', () => {
 		password: 'testpassword',
 	};
 
-	// test for user registration
+	const testUser1: UserTest = {
+		user_name: 'Test User ' + randomstring.generate(7),
+		email: randomstring.generate(9) + '@user.fi',
+		password: 'testpassword',
+	};
+
 	it('should create a new user', async () => {
 		await postUser(app, testUser);
 	});
 
-	//test for user login
+	it('should create second user', async () => {
+		await postUser(app, testUser1);
+	});
+
 	it('should login user', async () => {
 		const vars = {
 			credentials: {
@@ -38,31 +50,62 @@ describe('Test GraphQL API', () => {
 			},
 		};
 		userData = await loginUser(app, vars);
-	}, 3000);
+	});
 
-	it('should add a new repository to favorites', async () => {
+	it('should login second user', async () => {
+		const vars = {
+			credentials: {
+				username: testUser1.email!,
+				password: testUser1.password!,
+			},
+		};
+		userData2 = await loginUser(app, vars);
+	});
+
+	const adminUser: UserTest = {
+		email: process.env.SECRET_USERNAME as string,
+		password: process.env.SECRET_PASSWORD as string,
+	};
+
+	it('should login admin', async () => {
+		const vars = {
+			credentials: {
+				username: adminUser.email!,
+				password: adminUser.password!,
+			},
+		};
+		adminData = await loginUser(app, vars);
+	});
+
+	it('should add a new repository to favorites and update if repo has been updated recently', async () => {
 		const vars = {
 			input: {
-				node_id: 'TEST_ID',
-				name: 'Test Repository',
-				url: 'testRepo.com',
-				updated_at: new Date(),
+				node_id: 'R_kgDOLbfZfQ',
+				name: 'Test Repository' + randomstring.generate(7),
+				url: 'testRepo-' + randomstring.generate(7)+ '.com',
+				updated_at: new Date('2020-03-04T15:11:41.000+00:00'),
 			},
 		};
 		testRepo =  await addRepository(app, userData.token!, vars);
 		console.log('testRepo', testRepo);
-	}, 3000);
+	});
+
 
 	it('should get all repositories from favorites', async () => {
 		await fetchAllRepositories(app, userData.token!);
-	}, 3000);
+	});
 
 	it('should delete a repository from favorites', async () => {
 		await deleteRepository(app, userData.token!, testRepo.id!);
-	}, 3000);
+	});
 
-	// test delete user based on token
+	it('should delete a user as admin', async () => {
+		await adminDeleteUser( app,
+			userData2.user.id,
+			adminData.token!,);
+	});
+
 	it('should delete current user', async () => {
 		await deleteUser(app, userData.token!);
-	}, 3000);
+	});
 });

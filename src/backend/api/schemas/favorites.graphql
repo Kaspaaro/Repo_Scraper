@@ -16,10 +16,10 @@ input RepositoryInput {
 
 type Query {
     favorites: [FavoriteRepository]
+    test(input:String!): String
 }
 
 type Mutation {
     addRepository(input: RepositoryInput!): FavoriteRepository
     removeRepository(id: ID!): FavoriteRepository
-    updateRepository(id: ID!, input: RepositoryInput!): FavoriteRepository
 }

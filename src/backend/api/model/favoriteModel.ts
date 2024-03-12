@@ -7,22 +7,18 @@ const favModel = new mongoose.Schema({
 		required: true,
 		minlength: 3,
 		maxlength: 100,
-		unique:false,
 	},
 	url: {
 		type: String,
 		required: true,
-		unique: true
 	},
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
-		required: true,
 	},
 	node_id: {
 		type: String,
 		required: true,
-		unique: true
 	},
 	updated_at: {
 		type: Date,
