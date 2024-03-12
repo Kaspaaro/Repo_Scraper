@@ -26,16 +26,16 @@ jobs:
           JWT_SECRET: ${{secrets.JWT_SECRET}}
           SECRET_USERNAME: ${{secrets.SECRET_USERNAME}}
           SECRET_PASSWORD: ${{secrets.SECRET_PASSWORD}}
-          API_TOKEN: {{secrets.TOKEN_API}
+          API_TOKEN: ${{secrets.TOKEN_API}
         run: |
-          touch .env
+            touch .env
             echo "DATABASE_URL=$DATABASE_URL" >> .env
             echo "REACT_APP_AUTH_URL=$REACT_APP_AUTH_URL" >> .env
             echo "JWT_SECRET=$JWT_SECRET" >> .env
             echo "SECRET_USERNAME=$SECRET_USERNAME" >> .env
             echo "SECRET_PASSWORD=$SECRET_PASSWORD" >> .env
             echo "API_TOKEN=$API_TOKEN" >> .env
-          npm install
+            npm install
 
       - name: Build
         run: npm run build --if-present
