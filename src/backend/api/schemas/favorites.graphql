@@ -1,16 +1,22 @@
+scalar DateTime
 type FavoriteRepository {
     id: ID!
+    node_id: String!
     name: String!
     owner: User!
     url: String!
+    updated_at: DateTime!
 }
 input RepositoryInput {
     name: String
     url: String
+    node_id: String
+    updated_at: DateTime
 }
 
 type Query {
     favorites: [FavoriteRepository]
+    test(input:String!): String
 }
 
 type Mutation {

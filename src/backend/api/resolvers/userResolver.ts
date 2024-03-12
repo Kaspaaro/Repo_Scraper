@@ -4,6 +4,8 @@ import fetchData from '../../auth-functions/fetchData';
 import {UserResponse} from '../../database/types/MessageTypes';
 import {isAdmin, isLoggedIn} from '../../auth-functions/authorize';
 import {favoriteModel} from '../model/favoriteModel';
+import {getRepositoriesByIds} from "../github-queries/queries";
+
 
 export default {
 

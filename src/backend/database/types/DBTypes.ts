@@ -1,4 +1,18 @@
 import {Document, Types} from 'mongoose';
+import {fetchReadme} from '../../api/github-queries/queries';
+
+interface Repot {
+    id: string;
+    name: string;
+    html_url: string;
+    node_id: string;
+    description: string;
+    owner: {
+        login: string;
+    };
+    contents_url: string;
+}
+
 
 type User = Partial<Document> & {
     id: Types.ObjectId | string;
@@ -15,11 +29,80 @@ type GithubUser = {
     }
 };
 
+type Owner = {
+    login: string;
+}
+
+type GithubRepository = {
+    nodes: Node[];
+}
+
+type GithubOutputRepositories ={
+    id: number;
+    name: string;
+    url: string;
+    node_id: string;
+    description: string | null;
+    owner:{
+        login: string;
+    };
+    content_url: string;
+}
+type Node = {
+    id: string;
+    name: string;
+    url: string;
+    description?: string;
+    updatedAt: Date;
+    owner: Owner;
+}
+
+type UserRepositories = {
+    user: {
+        name: string;
+        repositories: {
+            nodes: Node[];
+        }
+    }
+}
+
+type GithubRepoType = {
+    id: string;
+    name: string;
+    html_url: string;
+    node_id: string;
+    description: string;
+    owner: {
+        login: string;
+    };
+    contents_url: string;
+}
+
+type Repositories = {
+    data: [Node]
+}
+
+type SearchRepositoriesOutput = {
+    search: {
+        repositoryCount: number;
+        edges: {
+            node: Node[];
+        };
+    };
+}
+
 type Repository = Partial<Document> & {
     id: Types.ObjectId | string;
     user: Types.ObjectId | string;
     name: string;
     url: string;
+    node_id: string;
+    updated_at: Date;
+    description: string;
+    owner:{
+        login: string;
+    };
+
 }
 type RepositoryTest = Partial<Repository>
 
@@ -56,4 +139,11 @@ export type {
 	RepositoryInput,
 	RepositoryTest,
 	Credentials,
+	GithubRepository,
+	UserRepositories,
+	Repositories,
+	SearchRepositoriesOutput,
+	GithubOutputRepositories,
+	GithubRepoType,
+	Repot
 };

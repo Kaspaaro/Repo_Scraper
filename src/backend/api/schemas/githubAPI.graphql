@@ -1,6 +1,0 @@
-type GithubOwner {
-    name: String
-}
-extend type Query {
-    githubUser(username:String!) : GithubOwner
-}

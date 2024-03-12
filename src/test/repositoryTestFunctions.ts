@@ -4,7 +4,7 @@ import {RepositoryTest} from '../backend/database/types/DBTypes';
 const addRepository = (
 	url: string | Application,
 	token: string,
-	vars: {input: {name: string; url: string}},
+	vars: {input: {name: string; url: string, node_id: string, updated_at: Date}},
 ): Promise<RepositoryTest> => {
 	return new Promise((resolve, reject) => {
 		request(url)
@@ -14,9 +14,11 @@ const addRepository = (
 			.send({
 				query: `mutation Mutation($input: RepositoryInput!) {
                           addRepository(input: $input) {
-                            id
+                          	id
                             name
                             url
+                            updated_at
+                            node_id
                           }
                         }`,
 				variables: vars,
@@ -28,8 +30,10 @@ const addRepository = (
 				} else {
 					const newRepo = response.body.data.addRepository;
 					expect(newRepo).toHaveProperty('id');
+					expect(newRepo.node_id).toBe(vars.input.node_id);
 					expect(newRepo.name).toBe(vars.input.name);
 					expect(newRepo.url).toBe(vars.input.url);
+					expect(newRepo.updated_at).not.toBe(null);
 					resolve(response.body.data.addRepository);
 				}
 			});
@@ -89,6 +93,5 @@ const fetchAllRepositories = (url: string | Application, token: string) => {
 			});
 	});
 };
-
 
 export {addRepository, deleteRepository, fetchAllRepositories};
