@@ -26,6 +26,7 @@ jobs:
           JWT_SECRET: ${{secrets.JWT_SECRET}}
           SECRET_USERNAME: ${{secrets.SECRET_USERNAME}}
           SECRET_PASSWORD: ${{secrets.SECRET_PASSWORD}}
+          GITHUB_TOKEN: {{secrets.TOKEN_API}
         run: |
           touch .env
             echo "DATABASE_URL=$DATABASE_URL" >> .env
