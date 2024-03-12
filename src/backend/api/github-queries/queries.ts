@@ -48,6 +48,7 @@ const getRepositories =  async (page: number) => {
 		return repos;
 	} catch (error) {
 		console.log(new CustomError('An error occurred while fetching repositories', 500));
+		return [];
 	}
 };
 

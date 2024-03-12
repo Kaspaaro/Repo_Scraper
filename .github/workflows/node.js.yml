@@ -24,11 +24,15 @@ jobs:
           DATABASE_URL: ${{secrets.DATABASE_URL}}
           REACT_APP_AUTH_URL: ${{secrets.AUTH_URL}}
           JWT_SECRET: ${{secrets.JWT_SECRET}}
+          SECRET_USERNAME: ${{secrets.SECRET_USERNAME}}
+          SECRET_PASSWORD: ${{secrets.SECRET_PASSWORD}}
         run: |
           touch .env
             echo "DATABASE_URL=$DATABASE_URL" >> .env
             echo "REACT_APP_AUTH_URL=$REACT_APP_AUTH_URL" >> .env
             echo "JWT_SECRET=$JWT_SECRET" >> .env
+            echo "SECRET_USERNAME=$SECRET_USERNAME" >> .env
+            echo "SECRET_PASSWORD=$SECRET_PASSWORD" >> .env
           npm install
 
       - name: Build
