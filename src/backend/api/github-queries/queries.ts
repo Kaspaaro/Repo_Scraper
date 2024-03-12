@@ -6,7 +6,7 @@ import {
 	UserRepositories
 } from '../../database/types/DBTypes';
 import CustomError from '../../CustomError';
-import {GraphQLError} from "graphql";
+import {GraphQLError} from 'graphql';
 const octokit = new Octokit({
 	auth: process.env.API_TOKEN,
 	userAgent: 'octokit/rest.js v1.2.3',
@@ -138,7 +138,6 @@ const getRepositoriesByName = async (name: string) => {
 	try {
 		const query = `query {
 		  search(query: "${name} in:name", type: REPOSITORY, first: 100) {
-			repositoryCount
 			edges {
 			  node {
 				... on Repository {

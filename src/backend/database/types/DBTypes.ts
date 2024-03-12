@@ -91,11 +91,15 @@ type Repositories = {
 
 type SearchRepositoriesOutput = {
     search: {
-        repositoryCount: number;
         edges: {
-            node: Node[];
-        };
-    };
+            node: {
+                name: string;
+                url: string;
+                description: string;
+                updatedAt: Date;
+            }
+        }[];
+    }
 }
 
 type Repository = Partial<Document> & {
@@ -152,5 +156,6 @@ export type {
 	SearchRepositoriesOutput,
 	GithubOutputRepositories,
 	GithubRepoType,
-	Repot
+	Repot,
+	Node,
 };

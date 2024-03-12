@@ -1,5 +1,5 @@
 import {favoriteModel} from '../model/favoriteModel';
-import {RepositoryInput} from '../../database/types/DBTypes';
+import {RepositoryInput, Node} from '../../database/types/DBTypes';
 import {isLoggedIn} from '../../auth-functions/authorize';
 import {MyContext} from '../../database/types/MyContext';
 import {
@@ -51,8 +51,9 @@ export default {
 		},
 		test: async (_parent: undefined, args: {input: string}, context: MyContext) => {
 			//await getRateLimit();
-			// const repos = await getRepositoriesByIds(['MDEwOlJlcG9zaXRvcnkx']);
-			// console.log('repos', repos);
+			const repos2 = await getRepositoriesByName('Web');
+			const nodes = repos2.map((edge) => edge.node);
+			console.log('nodes', nodes[1]);
 		}
 
 	},
