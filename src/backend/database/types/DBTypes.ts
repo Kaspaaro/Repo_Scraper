@@ -42,6 +42,9 @@ type Languages = {
         name: string;
     }[];
 }
+type RepoLanguages = {
+    [key: string]: number;
+}
 
 type GithubOutputRepositories ={
     id: number;
@@ -58,11 +61,12 @@ type Node = {
     id: string;
     name: string;
     url: string;
-    description?: string;
+    description ? : string;
     updatedAt: Date;
     owner: Owner;
     languages: Languages;
 }
+
 
 type UpdatedRepositories = {
     id: string
@@ -72,6 +76,13 @@ type UpdatedRepositories = {
     url: string
     updated_at: Date
 }
+
+type Testi = {
+    repositoryCount: number;
+    edges: {
+        node: Node[];
+    }[];
+};
 
 type UserRepositories = {
     user: {
@@ -102,13 +113,22 @@ type SearchRepositoriesOutput = {
     search: {
         edges: {
             node: {
+                owner: {
+                    login: string;
+                }
+
                 name: string;
                 url: string;
                 description: string;
                 updatedAt: Date;
+
             }
         }[];
     }
+            };
+        }[];
+    };
+
 }
 
 type Repository = Partial<Document> & {
@@ -168,4 +188,8 @@ export type {
 	Repot,
 	Node,
 	UpdatedRepositories
+	Testi,
+	Owner,
+	Languages,
+	RepoLanguages
 };

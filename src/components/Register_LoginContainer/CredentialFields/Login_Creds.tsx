@@ -17,10 +17,10 @@ const Login_Creds = () => {
 				<input className={'usernameLoginInput'} name="username" onChange={handleInputChange} type="text" placeholder="Email"/>
 				<input className={'passwordLoginInput'} name="password" onChange={handleInputChange} type="password" placeholder="Password"/>
 			</form>
-			<button className={'loginButtonCreds'} onClick={handleLogin}>Login</button>
+			<button className={'loginButtonCreds'} type={'button'} onClick={handleLogin}>Login</button>
 			<div className={'externalLoginField'}>
-				<button className={'googleLoginButtonCreds'}>Login - Google</button>
-				<button className={'githubLoginButtonCreds'}>Login - GitHub</button>
+				<button className={'googleLoginButtonCreds'} type={'button'}>Login - Google</button>
+				<button className={'githubLoginButtonCreds'} type={'button'}>Login - GitHub</button>
 			</div>
 		</div>
 	);

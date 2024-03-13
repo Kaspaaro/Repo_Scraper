@@ -1,7 +1,7 @@
 import {Octokit} from 'octokit';
 import {
 	GithubOutputRepositories,
-	GithubRepository, GithubRepoType, Repot,
+	GithubRepository, GithubRepoType, RepoLanguages, Repot,
 	SearchRepositoriesOutput,
 	UserRepositories
 } from '../../database/types/DBTypes';
@@ -56,7 +56,7 @@ const getRepositories =  async (page: number) => {
 
 const fetchReadme = async (url: string) => {
 	try {
-		const query = await octokit.request(`GET ${url}`, {
+		const query = await octokit.request(`GET ${url}/contents/README.md`, {
 			path: 'README.md',
 			headers: {
 				'Accept': 'application/vnd.github.v3.raw'
@@ -66,6 +66,16 @@ const fetchReadme = async (url: string) => {
 		return query.data;
 	} catch (error) {
 		console.log(new CustomError('An error occurred while fetching readme', 500));
+		return '';
+	}
+};
+const fetchLanguages = async (url: string) => {
+	try {
+		const query = await octokit.request(`GET ${url}/languages`);
+		const res : { name: string, value: number }[] = Object.entries(query.data).map(([name, value]) => ({ name, value: Number(value)}));
+		return res;
+	} catch (error) {
+		console.log(new CustomError('An error occurred while fetching Languages', 500));
 		return '';
 	}
 };
@@ -139,12 +149,14 @@ const getRepositoriesByIds = async (listID: string[]) => {
 };
 
 const getRepositoriesByName = async (name: string) => {
-	try {
-		const query = `query {
+	const query = `query {
 		  search(query: "${name} in:name", type: REPOSITORY, first: 100) {
 			edges {
 			  node {
 				... on Repository {
+				  owner {
+				  	login
+				  }	
 				  name
 				  url
 				  description
@@ -163,4 +175,4 @@ const getRepositoriesByName = async (name: string) => {
 	}
 };
 
-export {getRepositoriesByUsername, getRepositories, getRepositoriesByIds, getRepositoriesByName, fetchReadme, getRateLimit};
+export {getRepositoriesByUsername, getRepositories, getRepositoriesByIds, getRepositoriesByName, fetchReadme, getRateLimit,fetchLanguages};

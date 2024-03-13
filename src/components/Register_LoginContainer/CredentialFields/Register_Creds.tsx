@@ -26,10 +26,10 @@ const Register_Creds = () => {
 				<input className={'passwordRegisterInput'} name="password" type="password" onChange={handleInputChange} placeholder="Password" />
 				<input className={'confirmPasswordRegisterInput'} name="confirmPassword" type="password" onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm Password" />
 			</form>
-			<button className={'registerButtonCreds'} onClick={handleRegister}>Register</button>
+			<button className={'registerButtonCreds'} type={'button'} onClick={handleRegister}>Register</button>
 			<div className={'externalRegisterField'}>
-				<button className={'googleRegisterButtonCreds'}>Register - Google</button>
-				<button className={'githubRegisterButtonCreds'}>Register - GitHub</button>
+				<button className={'googleRegisterButtonCreds'} type={'button'}>Register - Google</button>
+				<button className={'githubRegisterButtonCreds'} type={'button'}>Register - GitHub</button>
 			</div>
 		</div>
 	);
