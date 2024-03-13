@@ -43,8 +43,11 @@ export default {
 	Mutation: {
 		addRepository: async (_parent: undefined, args: {input: RepositoryInput}, context: MyContext) => {
 			isLoggedIn(context);
-			return await favoriteModel.create({...args.input, user: context.userdata?.user._id});
-
+			const repos = await favoriteModel.find({user: context.userdata?.user._id});
+			if (repos.length >= 10) {
+				throw new GraphQLError('You can only add 10 repositories to your favorites');
+			}
+			return favoriteModel.create({...args.input, user: context.userdata?.user._id});
 		},
 		updateRepositories: async (_parent: undefined, args:{user:string}, context: MyContext) => {
 			isLoggedIn(context);

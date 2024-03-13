@@ -5,9 +5,16 @@ import {UserTest, RepositoryTest} from '../backend/database/types/DBTypes';
 import randomstring from 'randomstring';
 import app from '../backend/app';
 import {adminDeleteUser, deleteUser, loginUser, postUser} from './userTestFuntions';
-import {addRepository, deleteRepository, fetchAllRepositories, updateRepositories} from './repositoryTestFunctions';
+import {
+	addRepository,
+	addRepositoryFails,
+	deleteRepository,
+	fetchAllRepositories,
+	updateRepositories
+} from './repositoryTestFunctions';
 import {Simulate} from 'react-dom/test-utils';
 import input = Simulate.input;
+import {GraphQLError} from "graphql";
 describe('Test GraphQL API', () => {
 	beforeAll(async () => {
 		await mongoose.connect(process.env.DATABASE_URL as string);
@@ -87,13 +94,39 @@ describe('Test GraphQL API', () => {
 			},
 		};
 		testRepo =  await addRepository(app, userData.token!, vars);
-		console.log('testRepo', testRepo);
 	});
 
 	it('should update repositories', async () => {
 		await updateRepositories(app, userData.token!);
 	});
 
+	const addRepos = async () => {
+		for (let i = 0; i < 9; i++) {
+			const vars = {
+				input: {
+					node_id: 'R_' + randomstring.generate(10),
+					name: 'Test Repository' + randomstring.generate(7),
+					url: 'testRepo-' + randomstring.generate(7) + '.com',
+					updated_at: new Date('2020-03-04'),
+				},
+			};
+			await addRepository(app, userData.token!, vars);
+		}
+	};
+
+
+	it('should not add more than 10 repos per user', async () => {
+		await addRepos();
+		const vars = {
+			input: {
+				node_id: 'R_' + randomstring.generate(10),
+				name: 'Test Repository' + randomstring.generate(7),
+				url: 'testRepo-' + randomstring.generate(7) + '.com',
+				updated_at: new Date('2020-03-04'),
+			},
+		};
+		await addRepositoryFails(app, userData.token!, vars);
+	});
 
 	it('should get all repositories from favorites', async () => {
 		await fetchAllRepositories(app, userData.token!);
