@@ -7,14 +7,18 @@
     justify-content: center;
     align-items: center;
 }
-.skill-card{
-    width: auto;
-    height: 100%;
+.card{
+    height: 50rem;
     margin: 0 10px auto 0;
     justify-content: center;
 }
 .card-body{
-    width: 200px;
-    min-width: 100px;
-    height: fit-content;
+    display: grid;
+    height: 15rem;
+    width: 15rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    justify-items: center;
+    align-items: center;
+    font-size: 0.8em;
 }

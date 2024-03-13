@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './Styles/RepoinfoStyles.css';
 import MarkdownElement from '../SearchBarElements/MarkdownTestPage';
-import {Col, Container, Row} from 'react-bootstrap';
+import {Col, Container, Row, Stack} from 'react-bootstrap';
 import {fetchLanguages} from '../../backend/api/github-queries/queries';
 
 const repoInfo = ({url,description,languages}:{url:string,description:string|undefined,languages:NonNullable<unknown>}) =>{
@@ -22,11 +22,26 @@ const repoInfo = ({url,description,languages}:{url:string,description:string|und
 	
 	const fetchLanguagesInfo = () => {
 		const convert = lang as { name: string, value: number }[];
+		const sum = convert.reduce((total, item) => total + item.value, 0);
 		return convert.map((item, i) => {
+			const percentage = (item.value / sum) * 100;
+			const result = percentage.toFixed(1);
+			const valueList = [];
+			valueList.push(item.value);
 			return (
-				<p key={i} className={'fs-6'}>{item.name}</p>
+				<Row key={i} style={{height:'2rem'}}>
+					<Col xs={50}>
+						<div style={{display: 'flex', alignItems: 'center'}}>
+							<div className={'fs-6'} style={{height: '1rem', backgroundColor: 'black', width: `${result}%`,marginRight:'8%'}}>
+								<p style={{color:'white',fontSize:'10px',marginLeft:'0.4rem'}}>{result}%</p>
+							</div>
+							<p className={'fs-6 mb-0'} style={{marginLeft:'6%'}}>{item.name}</p>
+						</div>
+					</Col>
+				</Row>
 			);
-		});
+		}
+		);
 	};
 
 	return (
@@ -43,7 +58,7 @@ const repoInfo = ({url,description,languages}:{url:string,description:string|und
 					</div>
 
 				</Col>
-				<Col className={'overflow-hidden mb-3'}>
+				<Col className={'overflow-hidden mb-3'} style={{height:'31rem'}}>
 					<Row className={'repoAbout h-100'} lg={1}>
 						<Col>
 							<div className={'title-ABOUT'}>
@@ -57,8 +72,10 @@ const repoInfo = ({url,description,languages}:{url:string,description:string|und
 							<div className={'title-LANGUAGES'}>
 								<h4 className={'p-2 mt-2'}>Languages</h4>
 							</div>
-							<div className={'descBox h-50'}>
-								{fetchLanguagesInfo()}
+							<div className={'langBox'}>
+								<Stack className={'overflow-scroll'} style={{height:'9rem'}} >
+									{fetchLanguagesInfo()}
+								</Stack>
 							</div>
 						</Col>
 					</Row>
