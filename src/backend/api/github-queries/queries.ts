@@ -6,6 +6,7 @@ import {
 	UserRepositories
 } from '../../database/types/DBTypes';
 import CustomError from '../../CustomError';
+import {GraphQLError} from 'graphql';
 const octokit = new Octokit({
 	auth: process.env.REACT_APP_API_TOKEN,
 	userAgent: 'octokit/rest.js v1.2.3',
@@ -17,7 +18,7 @@ const getRateLimit = async () => {
 			'X-GitHub-Api-Version': '2022-11-28'
 		}
 	});
-	console.log('data', data.data.rate.remaining);
+	return data.data.rate.remaining;
 };
 
 const getRepositories =  async (page: number) => {
@@ -45,6 +46,7 @@ const getRepositories =  async (page: number) => {
 				content_url: repo.contents_url,
 			};
 		});
+		console.log('Rate limit left: ', getRateLimit());
 		return repos;
 	} catch (error) {
 		console.log(new CustomError('An error occurred while fetching repositories', 500));
@@ -60,6 +62,7 @@ const fetchReadme = async (url: string) => {
 				'Accept': 'application/vnd.github.v3.raw'
 			}
 		});
+		console.log('Rate limit left: ', getRateLimit());
 		return query.data;
 	} catch (error) {
 		console.log(new CustomError('An error occurred while fetching readme', 500));
@@ -106,6 +109,7 @@ const getRepositoriesByUsername = async (username: string) => {
 				}
 			}`;
 		const repos:UserRepositories = await octokit.graphql(query);
+		console.log('Rate limit left: ', getRateLimit());
 		return repos.user.repositories.nodes;
 	} catch (error) {
 		console.log(new CustomError('An error occurred while fetching repositories by username', 500));
@@ -135,6 +139,7 @@ const getRepositoriesByIds = async (listID: string[]) => {
 		}
 	}`;
 		const repos:GithubRepository = await octokit.graphql(query);
+		console.log('Rate limit left: ', getRateLimit());
 		return repos.nodes;
 	}catch (error) {
 		console.log(error);
@@ -144,7 +149,8 @@ const getRepositoriesByIds = async (listID: string[]) => {
 };
 
 const getRepositoriesByName = async (name: string) => {
-	const query = `query {
+	try {
+		const query = `query {
 		  search(query: "${name} in:name", type: REPOSITORY, first: 100) {
 			edges {
 			  node {
@@ -161,9 +167,16 @@ const getRepositoriesByName = async (name: string) => {
 			}
 		  }
 		}`;
-	const repos:SearchRepositoriesOutput = await octokit.graphql(query);
-	console.log(getRateLimit());
-	return repos.search.edges;
+		const repos:SearchRepositoriesOutput = await octokit.graphql(query);
+		console.log('Rate limit left: ',getRateLimit());
+		return repos.search.edges;
+	}
+	catch (error) {
+		console.log(new CustomError('An error occurred while fetching repositories by name', 500));
+		return [];
+	}
 };
+
+
 
 export {getRepositoriesByUsername, getRepositories, getRepositoriesByIds, getRepositoriesByName, fetchReadme, getRateLimit,fetchLanguages};

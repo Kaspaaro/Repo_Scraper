@@ -67,6 +67,16 @@ type Node = {
     languages: Languages;
 }
 
+
+type UpdatedRepositories = {
+    id: string
+    node_id: string
+    name: string
+    owner: Owner
+    url: string
+    updated_at: Date
+}
+
 type Testi = {
     repositoryCount: number;
     edges: {
@@ -106,13 +116,14 @@ type SearchRepositoriesOutput = {
                 owner: {
                     login: string;
                 }
+
                 name: string;
                 url: string;
                 description: string;
                 updatedAt: Date;
-            };
-        }[];
-    };
+                }
+        }[]
+    }
 }
 
 type Repository = Partial<Document> & {
@@ -171,6 +182,7 @@ export type {
 	GithubRepoType,
 	Repot,
 	Node,
+	UpdatedRepositories,
 	Testi,
 	Owner,
 	Languages,
