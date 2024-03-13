@@ -1,23 +1,23 @@
 import {Octokit} from 'octokit';
 import {
 	GithubOutputRepositories,
-	GithubRepository, GithubRepoType, Repot,
+	GithubRepository, GithubRepoType, RepoLanguages, Repot,
 	SearchRepositoriesOutput,
 	UserRepositories
 } from '../../database/types/DBTypes';
 import CustomError from '../../CustomError';
 const octokit = new Octokit({
-	auth: process.env.API_TOKEN,
+	auth: process.env.REACT_APP_API_TOKEN,
 	userAgent: 'octokit/rest.js v1.2.3',
 });
 
-const getRatelimit = async () => {
+const getRateLimit = async () => {
 	const data = await octokit.request('GET /rate_limit', {
 		headers: {
 			'X-GitHub-Api-Version': '2022-11-28'
 		}
 	});
-	console.log('data', data);
+	console.log('data', data.data.rate.remaining);
 };
 
 const getRepositories =  async (page: number) => {
@@ -54,7 +54,7 @@ const getRepositories =  async (page: number) => {
 
 const fetchReadme = async (url: string) => {
 	try {
-		const query = await octokit.request(`GET ${url}`, {
+		const query = await octokit.request(`GET ${url}/contents/README.md`, {
 			path: 'README.md',
 			headers: {
 				'Accept': 'application/vnd.github.v3.raw'
@@ -63,6 +63,17 @@ const fetchReadme = async (url: string) => {
 		return query.data;
 	} catch (error) {
 		console.log(new CustomError('An error occurred while fetching readme', 500));
+		return '';
+	}
+};
+const fetchLanguages = async (url: string) => {
+	try {
+		const query = await octokit.request(`GET ${url}/languages`);
+		const res : { name: string, value: number }[] = Object.entries(query.data).map(([name, value]) => ({ name, value: Number(value)}));
+		return res;
+	} catch (error) {
+		console.log(new CustomError('An error occurred while fetching Languages', 500));
+		return '';
 	}
 };
 
@@ -71,12 +82,22 @@ const getRepositoriesByUsername = async (username: string) => {
 		const query = `query {
 				user(login: "${username}") {
 					name
-					repositories(first: 10) {
+					repositories(first: 100) {
 						nodes {
 							id
 							name
 							url
 							description
+							languages(first: 5) {
+								nodes {
+									name
+								}
+							}
+							collaborators {
+								nodes {
+									login
+								}
+							}
 							owner {
 								login
 							}
@@ -88,6 +109,7 @@ const getRepositoriesByUsername = async (username: string) => {
 		return repos.user.repositories.nodes;
 	} catch (error) {
 		console.log(new CustomError('An error occurred while fetching repositories by username', 500));
+		return [];
 	}
 };
 
@@ -101,6 +123,11 @@ const getRepositoriesByIds = async (listID: string[]) => {
 				url
 				description
 				updatedAt
+				languages(first: 5) {
+					nodes {
+						name
+					}
+				}
 				owner {
 					login
 				}
@@ -110,18 +137,21 @@ const getRepositoriesByIds = async (listID: string[]) => {
 		const repos:GithubRepository = await octokit.graphql(query);
 		return repos.nodes;
 	}catch (error) {
+		console.log(error);
 		console.log(new CustomError('An error occurred while fetching repositories by ids', 500));
+		return [];
 	}
 };
 
 const getRepositoriesByName = async (name: string) => {
-	try {
-		const query = `query {
+	const query = `query {
 		  search(query: "${name} in:name", type: REPOSITORY, first: 100) {
-			repositoryCount
 			edges {
 			  node {
 				... on Repository {
+				  owner {
+				  	login
+				  }	
 				  name
 				  url
 				  description
@@ -131,12 +161,9 @@ const getRepositoriesByName = async (name: string) => {
 			}
 		  }
 		}`;
-		const repos:SearchRepositoriesOutput = await octokit.graphql(query);
-		console.log(getRatelimit());
-		return repos.search.edges;
-	}catch (error) {
-		console.log(new CustomError('An error occurred while fetching repositories by name', 500));
-	}
+	const repos:SearchRepositoriesOutput = await octokit.graphql(query);
+	console.log(getRateLimit());
+	return repos.search.edges;
 };
 
-export {getRepositoriesByUsername, getRepositories, getRepositoriesByIds, getRepositoriesByName, fetchReadme};
+export {getRepositoriesByUsername, getRepositories, getRepositoriesByIds, getRepositoriesByName, fetchReadme, getRateLimit,fetchLanguages};

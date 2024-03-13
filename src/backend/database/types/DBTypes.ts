@@ -37,6 +37,15 @@ type GithubRepository = {
     nodes: Node[];
 }
 
+type Languages = {
+    nodes: {
+        name: string;
+    }[];
+}
+type RepoLanguages = {
+    [key: string]: number;
+}
+
 type GithubOutputRepositories ={
     id: number;
     name: string;
@@ -52,10 +61,18 @@ type Node = {
     id: string;
     name: string;
     url: string;
-    description?: string;
+    description ? : string;
     updatedAt: Date;
     owner: Owner;
+    languages: Languages;
 }
+
+type Testi = {
+    repositoryCount: number;
+    edges: {
+        node: Node[];
+    }[];
+};
 
 type UserRepositories = {
     user: {
@@ -84,10 +101,17 @@ type Repositories = {
 
 type SearchRepositoriesOutput = {
     search: {
-        repositoryCount: number;
         edges: {
-            node: Node[];
-        };
+            node: {
+                owner: {
+                    login: string;
+                }
+                name: string;
+                url: string;
+                description: string;
+                updatedAt: Date;
+            };
+        }[];
     };
 }
 
@@ -145,5 +169,10 @@ export type {
 	SearchRepositoriesOutput,
 	GithubOutputRepositories,
 	GithubRepoType,
-	Repot
+	Repot,
+	Node,
+	Testi,
+	Owner,
+	Languages,
+	RepoLanguages
 };
