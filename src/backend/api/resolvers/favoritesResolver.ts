@@ -37,6 +37,7 @@ export default {
 		test: async (_parent: undefined, args: {input: string}, context: MyContext) => {
 			// const repos2 = await getRepositoriesByName('Web');
 			// const nodes = repos2.map((edge) => edge.node);
+			console.log('Rate limit left', await getRateLimit());
 		}
 
 	},
@@ -51,11 +52,13 @@ export default {
 		},
 		updateRepositories: async (_parent: undefined, args:{user:string}, context: MyContext) => {
 			isLoggedIn(context);
+			console.log('Rate limit left upper', await getRateLimit());
 			const favorites = await favoriteModel.find({user: context.userdata?.user._id});
 			if (favorites.length > 0) {
 				const ids = favorites.map((fav) => fav.node_id);
 				const repos = await getRepositoriesByIds(ids);
 				const updatedRepositories :UpdatedRepositories[] = [];
+				console.log('Rate limit left lower', await getRateLimit());
 				await Promise.all(repos?.map(async (repo, index) => {
 					const date_repo = new Date(repo.updatedAt);
 					const date_fav = new Date(favorites[index].updated_at);

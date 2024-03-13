@@ -149,7 +149,8 @@ const getRepositoriesByIds = async (listID: string[]) => {
 };
 
 const getRepositoriesByName = async (name: string) => {
-	const query = `query {
+	try {
+		const query = `query {
 		  search(query: "${name} in:name", type: REPOSITORY, first: 100) {
 			edges {
 			  node {
@@ -169,10 +170,13 @@ const getRepositoriesByName = async (name: string) => {
 		const repos:SearchRepositoriesOutput = await octokit.graphql(query);
 		console.log('Rate limit left: ',getRateLimit());
 		return repos.search.edges;
-	}catch (error) {
+	}
+	catch (error) {
 		console.log(new CustomError('An error occurred while fetching repositories by name', 500));
 		return [];
 	}
 };
+
+
 
 export {getRepositoriesByUsername, getRepositories, getRepositoriesByIds, getRepositoriesByName, fetchReadme, getRateLimit,fetchLanguages};

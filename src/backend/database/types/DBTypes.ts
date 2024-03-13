@@ -121,14 +121,9 @@ type SearchRepositoriesOutput = {
                 url: string;
                 description: string;
                 updatedAt: Date;
-
-            }
-        }[];
+                }
+        }[]
     }
-            };
-        }[];
-    };
-
 }
 
 type Repository = Partial<Document> & {
@@ -187,7 +182,7 @@ export type {
 	GithubRepoType,
 	Repot,
 	Node,
-	UpdatedRepositories
+	UpdatedRepositories,
 	Testi,
 	Owner,
 	Languages,
