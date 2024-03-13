@@ -22,4 +22,5 @@ type Query {
 type Mutation {
     addRepository(input: RepositoryInput!): FavoriteRepository
     removeRepository(id: ID!): FavoriteRepository
+    updateRepositories: [FavoriteRepository]
 }
