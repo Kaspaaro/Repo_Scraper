@@ -64,6 +64,15 @@ type Node = {
     languages: Languages;
 }
 
+type UpdatedRepositories = {
+    id: string
+    node_id: string
+    name: string
+    owner: Owner
+    url: string
+    updated_at: Date
+}
+
 type UserRepositories = {
     user: {
         name: string;
@@ -158,4 +167,5 @@ export type {
 	GithubRepoType,
 	Repot,
 	Node,
+	UpdatedRepositories
 };

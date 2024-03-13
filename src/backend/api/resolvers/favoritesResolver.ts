@@ -1,5 +1,5 @@
 import {favoriteModel} from '../model/favoriteModel';
-import {RepositoryInput, Node} from '../../database/types/DBTypes';
+import {RepositoryInput, Node, UpdatedRepositories} from '../../database/types/DBTypes';
 import {isLoggedIn} from '../../auth-functions/authorize';
 import {MyContext} from '../../database/types/MyContext';
 import {
@@ -10,6 +10,7 @@ import {
 	fetchReadme,
 	getRateLimit
 } from '../github-queries/queries';
+import {GraphQLError} from 'graphql';
 
 export default {
 	Query: {
@@ -25,28 +26,13 @@ export default {
 		 * If the repository has been updated recently then it will update the updated_at date of the favorite repository in the database and
 		 * returns the data of favorite repos of the user to usable in ui.
 		 */
-		favorites: async (_parent: undefined, context:MyContext) => {
+		favorites: async (_parent: undefined,args:{user:string}, context:MyContext) => {
 			isLoggedIn(context);
 			const favorites= await favoriteModel.find({user: context.userdata?.user._id});
 			if (favorites.length > 0) {
-				const ids = favorites.map((fav) => fav.node_id);
-				const repos = await getRepositoriesByIds(ids);
-				let index = 0;
-				repos?.map(async (repo) => {
-					const date_repo = new Date(repo.updatedAt);
-					const date_fav = new Date(favorites[index].updated_at);
-					if (date_repo > date_fav) {
-						try {
-							console.log('repository has been updated recently ', repo);
-							await favoriteModel.findOneAndUpdate({node_id: repo.id}, {updated_at: date_repo}, {new: true});
-						}catch (e) {
-							console.log('An error occurred while updating a favorite repo', e);
-						}
-					}
-					index++;
-				});
+				return favorites;
 			}
-			return favorites;
+			return new GraphQLError('No favorite repositories were found');
 		},
 		test: async (_parent: undefined, args: {input: string}, context: MyContext) => {
 			// const repos2 = await getRepositoriesByName('Web');
@@ -59,6 +45,35 @@ export default {
 			isLoggedIn(context);
 			return await favoriteModel.create({...args.input, user: context.userdata?.user._id});
 
+		},
+		updateRepositories: async (_parent: undefined, args:{user:string}, context: MyContext) => {
+			isLoggedIn(context);
+			const favorites = await favoriteModel.find({user: context.userdata?.user._id});
+			if (favorites.length > 0) {
+				const ids = favorites.map((fav) => fav.node_id);
+				const repos = await getRepositoriesByIds(ids);
+				const updatedRepositories :UpdatedRepositories[] = [];
+				await Promise.all(repos?.map(async (repo, index) => {
+					const date_repo = new Date(repo.updatedAt);
+					const date_fav = new Date(favorites[index].updated_at);
+					if (date_repo > date_fav) {
+						try {
+							console.log('repository has been updated recently ', repo);
+							const updated:UpdatedRepositories| null = await favoriteModel.findOneAndUpdate({
+								node_id: repo.id,
+								user: context.userdata?.user._id
+							}, {updated_at: date_repo}, {new: true});
+							// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+							updatedRepositories.push(updated!);
+						} catch (e) {
+							console.log('An error occurred while updating a favorite repo', e);
+						}
+					}
+					index++;
+				}));
+				return updatedRepositories;
+			}
+			return new GraphQLError('No favorite repositories were found for updating');
 		},
 		removeRepository: async (_parent: undefined, args: {id: string}, context: MyContext) => {
 			isLoggedIn(context);

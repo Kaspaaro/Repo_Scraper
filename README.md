@@ -24,6 +24,8 @@ repositories to the favorites list and get notified when a repository is updated
 
 ### External API
 - GitHub API
+    - REST endpoints
+    - GraphQL endpoints
 
 ## Installation
 
@@ -88,6 +90,9 @@ For using the application, you need to open the browser and go to the address [h
 
 ## GitHub API
 The application uses the GitHub API to get the repositories and their details.
-The API has a rate limit of 60 requests per hour for unauthenticated users and 5000 requests per hour for authenticated users.
+The API has a rate limit of 60 requests per hour for unauthenticated users and
+5000 requests per hour for authenticated users.
+
+
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

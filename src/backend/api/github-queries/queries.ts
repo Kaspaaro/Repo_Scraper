@@ -8,7 +8,7 @@ import {
 import CustomError from '../../CustomError';
 import {GraphQLError} from 'graphql';
 const octokit = new Octokit({
-	auth: process.env.API_TOKEN,
+	auth: process.env.REACT_APP_API_TOKEN,
 	userAgent: 'octokit/rest.js v1.2.3',
 });
 

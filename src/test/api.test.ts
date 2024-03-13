@@ -5,7 +5,7 @@ import {UserTest, RepositoryTest} from '../backend/database/types/DBTypes';
 import randomstring from 'randomstring';
 import app from '../backend/app';
 import {adminDeleteUser, deleteUser, loginUser, postUser} from './userTestFuntions';
-import {addRepository, deleteRepository, fetchAllRepositories} from './repositoryTestFunctions';
+import {addRepository, deleteRepository, fetchAllRepositories, updateRepositories} from './repositoryTestFunctions';
 import {Simulate} from 'react-dom/test-utils';
 import input = Simulate.input;
 describe('Test GraphQL API', () => {
@@ -77,7 +77,7 @@ describe('Test GraphQL API', () => {
 		adminData = await loginUser(app, vars);
 	});
 
-	it('should add a new repository to favorites and update if repo has been updated recently', async () => {
+	it('should add a new repository', async () => {
 		const vars = {
 			input: {
 				node_id: 'R_kgDOLbfZfQ',
@@ -88,6 +88,10 @@ describe('Test GraphQL API', () => {
 		};
 		testRepo =  await addRepository(app, userData.token!, vars);
 		console.log('testRepo', testRepo);
+	});
+
+	it('should update repositories', async () => {
+		await updateRepositories(app, userData.token!);
 	});
 
 

@@ -3,6 +3,7 @@
   "name": "reposcrapper",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "start": "concurrently \"node dist/src/backend/index.js\" \" react-scripts start \"",
     "dev": "nodemon src/backend/index.ts",

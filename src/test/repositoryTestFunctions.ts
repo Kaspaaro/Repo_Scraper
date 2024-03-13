@@ -76,9 +76,11 @@ const fetchAllRepositories = (url: string | Application, token: string) => {
 			.send({
 				query: `query Query {
                           favorites {
-                            id
+                          	id
                             name
                             url
+                            updated_at
+                            node_id
                           }
                         }`,
 			})
@@ -93,5 +95,34 @@ const fetchAllRepositories = (url: string | Application, token: string) => {
 			});
 	});
 };
-
-export {addRepository, deleteRepository, fetchAllRepositories};
+const updateRepositories = (url: string | Application, token: string) => {
+	return new Promise((resolve, reject) => {
+		request(url)
+			.post('/graphql')
+			.set('Content-type', 'application/json')
+			.set('Authorization', `Bearer ${token}`)
+			.send({
+				query: `mutation Mutation {
+						 updateRepositories{
+						 	id
+                            name
+                            url
+                            updated_at
+                            node_id
+                            }
+						}`,
+			})
+			.expect(200, (err, response) => {
+				if (err) {
+					console.log('error', response.body);
+					reject(err);
+				} else {
+					const updatedRepos = response.body.data.updateRepositories;
+					console.log('updatedRepos', updatedRepos);
+					expect(response.body.data.updateRepositories).toBeInstanceOf(Array);
+					resolve(response.body.data.updateRepositories);
+				}
+			});
+	});
+};
+export {addRepository, deleteRepository, fetchAllRepositories, updateRepositories};
