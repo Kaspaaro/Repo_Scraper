@@ -1,22 +1,21 @@
-import {fetchReadme} from '../backend/api/github-queries/queries';
+import {fetchReadme} from '../../backend/api/github-queries/queries';
 import React, {useEffect, useState} from 'react';
 import Markdown from 'react-markdown';
 
 
-const MarkdownTestFunc:React.FC = () => {
+const MarkdownElement = ({url}:{url:string}) => {
 	const [markdownContent, setMarkdownContent] = useState<string>('');
 	useEffect(() => {
-		const fetchReadMe = async () => {
+		const fetchReadMeFunction = async () => {
 			try {
-				const fileContent = await fetchReadme('https://api.github.com/repos/FullStack-HY/FullStack-HY.github.io/contents/README.md');
+				const fileContent = await fetchReadme(url);
 				setMarkdownContent(fileContent);
 			} catch (error) {
 				console.error('Error fetching file content:', error);
 			}
 		};
-
-		fetchReadMe();
-	}, []);
+		fetchReadMeFunction();
+	}, [url]);
 
 	return(
 		<div>
@@ -25,4 +24,4 @@ const MarkdownTestFunc:React.FC = () => {
 			</Markdown>
 		</div>);
 };
-export default MarkdownTestFunc;
+export default MarkdownElement;
