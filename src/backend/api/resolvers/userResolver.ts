@@ -93,8 +93,8 @@ export default {
 		},
 		deleteUser: async (_parent: undefined, args: NonNullable<unknown>, context: MyContext) => {
 			isLoggedIn(context);
-			const favs = await favoriteModel.find({user: context.userdata?.user._id});
-			if (favs.length > 0) {
+			const favorites = await favoriteModel.find({user: context.userdata?.user._id});
+			if (favorites.length > 0) {
 				await favoriteModel.deleteMany({user: context.userdata?.user._id});
 			}
 			return await fetchData<UserResponse>(`${process.env.REACT_APP_AUTH_URL}/users`, {

@@ -25,13 +25,12 @@ export default {
 		 * If the repository has been updated recently then it will update the updated_at date of the favorite repository in the database and
 		 * returns the data of favorite repos of the user to usable in ui.
 		 */
-		favorites: async (_parent: undefined, args: {user: string}, context:MyContext) => {
+		favorites: async (_parent: undefined, context:MyContext) => {
 			isLoggedIn(context);
 			const favorites= await favoriteModel.find({user: context.userdata?.user._id});
 			if (favorites.length > 0) {
 				const ids = favorites.map((fav) => fav.node_id);
 				const repos = await getRepositoriesByIds(ids);
-				console.log('repos', repos);
 				let index = 0;
 				repos?.map(async (repo) => {
 					const date_repo = new Date(repo.updatedAt);
@@ -50,10 +49,8 @@ export default {
 			return favorites;
 		},
 		test: async (_parent: undefined, args: {input: string}, context: MyContext) => {
-			//await getRateLimit();
-			const repos2 = await getRepositoriesByName('Web');
-			const nodes = repos2.map((edge) => edge.node);
-			console.log('nodes', nodes[1]);
+			// const repos2 = await getRepositoriesByName('Web');
+			// const nodes = repos2.map((edge) => edge.node);
 		}
 
 	},
