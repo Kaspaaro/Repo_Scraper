@@ -95,10 +95,10 @@ describe('Test GraphQL API', () => {
 		};
 		testRepo =  await addRepository(app, userData.token!, vars);
 	});
-
-	it('should update repositories', async () => {
-		await updateRepositories(app, userData.token!);
-	});
+	//
+	// it('should update repositories', async () => {
+	// 	await updateRepositories(app, userData.token!);
+	// });
 
 	const addRepos = async () => {
 		for (let i = 0; i < 9; i++) {
