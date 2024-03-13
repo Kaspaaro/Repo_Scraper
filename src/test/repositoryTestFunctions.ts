@@ -95,7 +95,8 @@ const fetchAllRepositories = (url: string | Application, token: string) => {
 			});
 	});
 };
-const updateRepositories = (url: string | Application, token: string) => {
+const updateRepositories = (url: string | Application, token: string):
+	Promise<RepositoryTest[]> =>{
 	return new Promise((resolve, reject) => {
 		request(url)
 			.post('/graphql')
@@ -118,8 +119,8 @@ const updateRepositories = (url: string | Application, token: string) => {
 					reject(err);
 				} else {
 					const updatedRepos = response.body.data.updateRepositories;
+					expect(updatedRepos).toBeInstanceOf(Array);
 					console.log('updatedRepos', updatedRepos);
-					expect(response.body.data.updateRepositories).toBeInstanceOf(Array);
 					resolve(response.body.data.updateRepositories);
 				}
 			});
