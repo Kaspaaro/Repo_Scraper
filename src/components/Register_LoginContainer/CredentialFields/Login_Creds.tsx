@@ -8,8 +8,13 @@ const Login_Creds = () => {
 	const contextForLoginButton = useContext(LoginButtonContext);
 	const {closePopup, setClosePopup} = useContext(ClosePopupOnLogin);
 	const handleLogin = async () =>  {
-		await UserResolver.Mutation.login( undefined,{credentials: credentials}).then(r => {setUserToken(r.token); setUsername(r.user.user_name);});
-		contextForLoginButton.clickedFunction();
+		try {
+			await UserResolver.Mutation.login( undefined,{credentials: credentials}).then(r => {setUserToken(r.token); setUsername(r.user.user_name);});
+			contextForLoginButton.clickedFunction();
+		}catch (e) {
+			alert('Invalid Credentials');
+			console.log('Invalid Credentials');
+		}
 	};
 	const handleInputChange = (e: { target: { name: string; value: string; }; }) => {
 		setCredentials({ ...credentials, [e.target.name]: e.target.value });
