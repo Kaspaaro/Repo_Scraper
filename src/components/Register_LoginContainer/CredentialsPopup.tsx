@@ -5,6 +5,7 @@ import RegisterSelecionButton from './Buttons/RegisterSelectionButton';
 import Register_Creds from './CredentialFields/Register_Creds';
 import Login_Creds from './CredentialFields/Login_Creds';
 import {Context} from '../MyContext';
+import {Button} from 'react-bootstrap';
 type Props = {
 	isOpen: boolean;
 }
@@ -41,6 +42,7 @@ const CredentialsPopup = () =>{
 	return isOpen ?(
 		<>
 			<div className={`credentialContainer ${isOpen ? 'visible' : ''}`}>
+				<Button className={'closeButton'} onClick={()=>value.handleOpen(false)}>x</Button>
 				<LoginSelecionButton isActive={isLoginActive} setActive={() => {
 					setLoginActive(!isLoginActive);
 					if (!isLoginActive) {

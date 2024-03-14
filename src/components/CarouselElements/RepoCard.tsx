@@ -1,15 +1,24 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Button, Card} from 'react-bootstrap';
-import {Owner} from '../../backend/database/types/DBTypes';
-const RepoCard = ({name,owner,url,clickReadmeURL} : {name: string,owner:Owner,url:string,clickReadmeURL:(url: string)=>void}) => {
-
+import {Node, Owner} from '../../backend/database/types/DBTypes';
+import {AddToFavoritesContext, NodeItemContext} from '../MyContext';
+const RepoCard = ({name,owner,url,clickReadmeURL,updateDescription,nodeItems,nodeID} : {name: string,owner:Owner,url:string,clickReadmeURL:(url: string)=>void,updateDescription:(item: Node)=>void,nodeItems: Node,nodeID:string}) => {
+	const {click, setClick} = useContext(AddToFavoritesContext);
+	const {owner_Context,name_Context,node_id_Context,url_Context,updated_at_Context, setOwner_Context,setName_Context,setNode_id_Context,setUpdated_at_Context,setUrl_Context} = useContext(NodeItemContext);
+	const handleInformation = () =>{
+		setOwner_Context(owner.login);
+		setName_Context(name);
+		setNode_id_Context(nodeID);
+		setUrl_Context(url);
+		setUpdated_at_Context(nodeItems.updatedAt.toString());
+	};
 	return(
-		<Card className={'skill-card clickable'} onClick={() => {clickReadmeURL(`https://api.github.com/repos/${owner.login}/${name}`);}} >
+		<Card className={'card clickable'} onClick={() => {clickReadmeURL(`https://api.github.com/repos/${owner.login}/${name}`); updateDescription(nodeItems);}} >
 			<Card.Body className={'card-body'}>
-				<div className={'skill-img'}></div>
-				<h2 className={'skill-name'}>{name}</h2>
-				<h1>{owner.login}</h1>
-				<Button href={url}>Visit Repository on github</Button>
+				<Button onClick={()=>{setClick(!click); handleInformation();}}>Add to favorites</Button>
+				<p className={'name mb-0'}>{name}</p>
+				<p className={'mb-0'}>{owner.login}</p>
+				<Button href={url} className={'btn-sm'}>Visit Repository on github</Button>
 			</Card.Body>
 		</Card>
 	);

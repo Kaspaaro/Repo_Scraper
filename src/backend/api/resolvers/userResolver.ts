@@ -1,7 +1,7 @@
 import {User, UserInput, Repository} from '../../database/types/DBTypes';
 import {MyContext} from '../../database/types/MyContext';
 import fetchData from '../../auth-functions/fetchData';
-import {UserResponse} from '../../database/types/MessageTypes';
+import {LoginResponse, UserResponse} from '../../database/types/MessageTypes';
 import {isAdmin, isLoggedIn} from '../../auth-functions/authorize';
 import {favoriteModel} from '../model/favoriteModel';
 import {getRepositoriesByIds} from '../github-queries/queries';
@@ -49,7 +49,7 @@ export default {
 			_parent: undefined,
 			args: {credentials: {username: string; password: string}},
 		) => {
-			return await fetchData<UserResponse>(
+			return await fetchData<LoginResponse>(
 				`${process.env.REACT_APP_AUTH_URL}/auth/login`,
 				{
 					method: 'POST',

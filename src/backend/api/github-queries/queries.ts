@@ -206,6 +206,7 @@ const getRepositoriesByName = async (name: string) => {
 				  url
 				  description
 				  updatedAt
+				  id
 				}
 			  }
 			}

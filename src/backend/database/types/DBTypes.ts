@@ -121,6 +121,7 @@ type SearchRepositoriesOutput = {
                 url: string;
                 description: string;
                 updatedAt: Date;
+                id: string;
                 }
         }[]
     }

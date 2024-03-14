@@ -1,12 +1,10 @@
-import {Card, Col, Row, Carousel, Stack, Button} from 'react-bootstrap';
+import {Carousel, Stack, Button} from 'react-bootstrap';
 import React, {useContext, useEffect, useState} from 'react';
 import RepoCard from './RepoCard';
 import './cssStyles/CarouselStyles.css';
-import {Languages, Node, Owner} from '../../backend/database/types/DBTypes';
+import { Node} from '../../backend/database/types/DBTypes';
 import {SearchBarContext} from '../MyContext';
 import { JSX } from 'react/jsx-runtime';
-import {forEach} from 'react-bootstrap/ElementChildren';
-import RepoInfo from '../InformationElement/RepoInfo';
 
 
 const ResultCarousel = (
@@ -27,17 +25,16 @@ const ResultCarousel = (
 	};
 
 	const fetchStack = (items: Node[]) => {
-		fetchInformation(items);
 		return items.map((item, i) => (
-			<RepoCard key={i} name={item.name} owner={item.owner} url={item.url} clickReadmeURL={handleSendUrl}/>
+			<RepoCard key={i} name={item.name} owner={item.owner} url={item.url} clickReadmeURL={handleSendUrl} updateDescription={fetchInformation} nodeItems={item} nodeID={item.id}/>
 		));
 	};
-	const fetchInformation = (items: Node[]) => {
-		return items.map((item, i) => {
-			if (item.description) {
-				getDescription(item.description);
-			}
-		});
+	const fetchInformation = (item: Node) => {
+		if (item.description === '' || item.description === undefined || item.description === null) {
+			return getDescription('No description Provided');
+		}else{
+			return getDescription(item.description);
+		}
 	};
 
 	useEffect(() => {
@@ -61,7 +58,7 @@ const ResultCarousel = (
 	}, [clicked]);
 	return (
 		<>
-			<Button className={'mt-0'} onClick={async ()=>{await handleClick(); setClicked(!clicked);}}>Search</Button>
+			<Button className={'searchButton'} onClick={async ()=>{await handleClick(); setClicked(!clicked);}}>Search</Button>
 			<Carousel className={'mainCarouselComponent'} interval={null} data-bs-theme="dark" activeIndex={index} onSelect={handleSelect}>
 				{carouselItems}
 			</Carousel>

@@ -24,4 +24,11 @@
 }
 .descBox{
     background-color: #363535;
+    height: 50vh;
+    max-height: 50vh;
+}
+.langBox{
+    background-color: #363535;
+    height: 9rem;
+    max-height: 9rem;
 }

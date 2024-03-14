@@ -2,8 +2,7 @@
     width: 50%;
     height: 30px;
     background-color: #0D1117;
-    border-bottom-left-radius: 10px;
-    border-top-left-radius: 10px;
+    border-radius: 10px;
     border: 1px solid #30363D;
     color:white;
     font-size: small;
@@ -16,6 +15,6 @@
     font-size: small;
 
 }
-.filterOption{
-    background-color: #E8E8E8;
+.carouselHolder{
+    display: contents;
 }

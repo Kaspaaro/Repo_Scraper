@@ -10,7 +10,7 @@ import CredentialsPopup from './components/Register_LoginContainer/CredentialsPo
 import ResultCarousel from './components/CarouselElements/Carousel';
 import AuthButton_Container from './components/AuthenticateButtons/Container/AuthButton_Container';
 import MainSideBarElement from './components/SideBar/SideBarComponents/MainSideBarElement';
-import {Context} from './components/MyContext';
+import {AddToFavoritesContext, Context, LoginTokenContext, NodeItemContext} from './components/MyContext';
 import RepoInfo from './components/InformationElement/RepoInfo';
 const client = new ApolloClient({
 	uri: `${process.env.GRAPHQL_SERVER}`,
@@ -22,6 +22,15 @@ function App() {
 	const [url, setUrl] = useState('');
 	const [desc, setDesc] = useState('');
 	const [languages, setLanguages] = useState({});
+	const [userToken, setUserToken] = useState('');
+	const [username, setUsername] = useState('');
+	const [click, setClick] = useState(false);
+	const [owner_Context, setOwner_Context] = useState('');
+	const [node_id_Context, setNode_id_Context] = useState('');
+	const [name_Context, setName_Context] = useState('');
+	const [url_Context, setUrl_Context] = useState('');
+	const [updated_at_Context, setUpdated_at_Context] = useState('');
+
 	const handleOpen = (modeboolean:boolean) => {
 		_setIsOpen(!isOpen);
 		if (modeboolean) {
@@ -46,14 +55,31 @@ function App() {
 			<>
 				<div className="App">
 					<header className="App-header">
-						<Context.Provider value={value}>
-							<CredentialsPopup/>
-							<AuthButton_Container/>
-						</Context.Provider>
-						<Logo className="App-logo"/>
-						<SearchBar onUrlChange={handleUrlChange} getDescription={handleGetDescription}/>
-						<RepoInfo url={url} description={desc} languages={languages}/>
-						<MainSideBarElement/>
+						<LoginTokenContext.Provider value={{userToken, setUserToken,username, setUsername}}>
+							<AddToFavoritesContext.Provider value={{click, setClick}}>
+								<NodeItemContext.Provider value={{
+									owner_Context,
+									setOwner_Context,
+									node_id_Context,
+									setNode_id_Context,
+									name_Context,
+									setName_Context,
+									url_Context,
+									setUrl_Context,
+									updated_at_Context,
+									setUpdated_at_Context
+								}}>
+									<Context.Provider value={value}>
+										<CredentialsPopup/>
+										<AuthButton_Container/>
+									</Context.Provider>
+									<Logo className="App-logo"/>
+									<SearchBar onUrlChange={handleUrlChange} getDescription={handleGetDescription}/>
+									<RepoInfo url={url} description={desc} languages={languages}/>
+									<MainSideBarElement/>
+								</NodeItemContext.Provider>
+							</AddToFavoritesContext.Provider>
+						</LoginTokenContext.Provider>
 					</header>
 				</div>
 

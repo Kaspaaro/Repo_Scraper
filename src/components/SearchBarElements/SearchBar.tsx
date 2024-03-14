@@ -32,10 +32,6 @@ const SearchBar = ({onUrlChange,getDescription}:{
 						placeholder="Search..."
 						onChange={handleInputChange}
 					/>
-					<select className={'filterButton'}>
-						<option className={'filterOption'} value="Repos">Repositories</option>
-						<option className={'filterOption'} value="Users">Users</option>
-					</select>
 				</div>
 				<div className={'carouselHolder'}>
 					<ResultCarousel handleClick={sendInput} handleSendUrl={onUrlChange} getDescription={getDescription}/>
