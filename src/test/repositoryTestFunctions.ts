@@ -1,7 +1,7 @@
 import {Application} from 'express';
 import request from 'supertest';
 import {RepositoryTest} from '../backend/database/types/DBTypes';
-import {GraphQLError} from "graphql";
+import {GraphQLError} from 'graphql';
 const addRepository = (
 	url: string | Application,
 	token: string,
