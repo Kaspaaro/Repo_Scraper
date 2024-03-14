@@ -16,3 +16,14 @@ export const deleteRepository = `
      }
   }
 `;
+export const updateFavoriteRepos = `
+  query Query {
+   favorites {
+    id
+    name
+    url
+    updated_at
+    node_id
+    }
+   }
+`;

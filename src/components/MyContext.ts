@@ -38,9 +38,15 @@ const nodeItemContext = {
 	setUpdated_at_Context: (updated_at:string)=>{},
 
 };
+
+const loginButtonContext ={
+	clickedFunction: async ()=> {},
+};
+
 export const RepoCardContext = createContext(repoCardContext);
 export const SearchBarContext = createContext(searchBarContext);
 export const Context = createContext(context);
 export const LoginTokenContext = createContext(loginTokenContext);
 export const AddToFavoritesContext = createContext(addToFavoritesContext);
 export const NodeItemContext = createContext(nodeItemContext);
+export const LoginButtonContext= createContext(loginButtonContext);

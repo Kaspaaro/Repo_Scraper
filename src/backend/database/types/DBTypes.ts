@@ -108,6 +108,9 @@ type GithubRepoType = {
 type Repositories = {
     data: [Node]
 }
+type favoriteResult = {
+    favorites: Node[];
+};
 
 type SearchRepositoriesOutput = {
     search: {
@@ -198,5 +201,6 @@ export type {
 	Owner,
 	Languages,
 	RepoLanguages,
-	RepositoryOutput
+	RepositoryOutput,
+	favoriteResult
 };

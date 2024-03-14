@@ -3,11 +3,12 @@ import {ReactComponent as SideBarButton} from '../svgElements/ButtonHalfCircle.s
 import '../Styles/SideBar.css';
 import {Button, Col, Container, Row, Stack} from 'react-bootstrap';
 import {doGraphQLFetch} from '../../../backend/api/GraphQL-queries/doGraphQLFetch';
-import {addRepository, deleteRepository} from '../../../backend/api/GraphQL-queries/queries';
+import {addRepository, deleteRepository, updateFavoriteRepos} from '../../../backend/api/GraphQL-queries/queries';
 import randomstring from 'randomstring';
-import {AddToFavoritesContext, LoginTokenContext, NodeItemContext} from '../../MyContext';
-import {RepositoryOutput} from '../../../backend/database/types/DBTypes';
+import {AddToFavoritesContext, LoginButtonContext, LoginTokenContext, NodeItemContext} from '../../MyContext';
+import {favoriteResult, RepositoryOutput,Node} from '../../../backend/database/types/DBTypes';
 import {JSX} from 'react/jsx-runtime';
+
 const MainSideBarElement = () =>{
 	const [isOpen, setIsOpen] = useState(false);
 	const {userToken, setUserToken,username, setUsername} = useContext(LoginTokenContext);
@@ -15,6 +16,8 @@ const MainSideBarElement = () =>{
 	const {owner_Context,name_Context,node_id_Context,url_Context,updated_at_Context, setOwner_Context,setName_Context,setNode_id_Context,setUpdated_at_Context,setUrl_Context} = useContext(NodeItemContext);
 	const [favoriteRepos, setFavoriteRepos] = useState<JSX.Element[]>([]);
 	const [favItem, setFavItem] = useState<JSX.Element>();
+	const loginButtonContext = useContext(LoginButtonContext);
+	const [updateclicked, setUpdateClicked] = useState(false);
 	const vars = {
 		input: {
 			node_id: node_id_Context,
@@ -22,6 +25,32 @@ const MainSideBarElement = () =>{
 			url: url_Context,
 			updated_at: new Date(updated_at_Context),
 		},
+	};
+	loginButtonContext.clickedFunction = async ()=>{
+		setUpdateClicked(!updateclicked);
+	};
+	const updateFavItems = async ()=>{
+		try{
+			const res = await doGraphQLFetch(process.env.REACT_APP_GRAPHQL_SERVER!,updateFavoriteRepos,{},userToken) as favoriteResult;
+			res.favorites.map((item)=>{
+				try {
+					const newItem = (
+						<Row key={item.id}>
+							<Col>
+								<h6 className={'repoItem'}>{item.name}</h6>
+								<Button href={item.url}>GO</Button>
+								<Button onClick={()=>deleteFavorite(item.id)}>DELETE</Button>
+							</Col>
+						</Row>
+					);
+					setFavoriteRepos(prevItems => [...prevItems, newItem]);
+				} catch (e) {
+					console.log('There are no items in the favorite list yet',e);
+				}
+			});
+		}catch (e) {
+			console.log('error', e);
+		}
 	};
 	const deleteFavorite = async (id:string)=>{
 		const result = {
@@ -48,7 +77,6 @@ const MainSideBarElement = () =>{
 		}
 	};
 	const handleOpen = () =>{
-		console.log('clicked');
 		setIsOpen(!isOpen);
 	};
 	useEffect(()=>{
@@ -56,6 +84,9 @@ const MainSideBarElement = () =>{
 			fetchRepository();
 		}
 	},[click]);
+	useEffect(() => {
+		updateFavItems();
+	}, [updateclicked]);
 
 	
 	return(

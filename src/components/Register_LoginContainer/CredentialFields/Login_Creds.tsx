@@ -1,12 +1,15 @@
 import React, {useContext, useState} from 'react';
 import '../cssStyles/LoginContainerStyle.css';
 import UserResolver from '../../../backend/api/resolvers/userResolver';
-import {LoginTokenContext} from '../../MyContext';
+import {LoginButtonContext, LoginTokenContext} from '../../MyContext';
 const Login_Creds = () => {
 	const [credentials, setCredentials] = useState({  password: '', username: '' });
 	const {userToken,username, setUserToken,setUsername} = useContext(LoginTokenContext);
+	const contextForLoginButton = useContext(LoginButtonContext);
+
 	const handleLogin = async () =>  {
-		UserResolver.Mutation.login( undefined,{credentials: credentials}).then(r => {setUserToken(r.token); setUsername(r.user.user_name);});
+		await UserResolver.Mutation.login( undefined,{credentials: credentials}).then(r => {setUserToken(r.token); setUsername(r.user.user_name);});
+		contextForLoginButton.clickedFunction();
 	};
 	const handleInputChange = (e: { target: { name: string; value: string; }; }) => {
 		setCredentials({ ...credentials, [e.target.name]: e.target.value });
