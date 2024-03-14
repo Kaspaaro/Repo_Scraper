@@ -20,7 +20,7 @@ const repoInfo = ({url,description,readmeClicked}:{url:string,description:string
 
 			fetchLanguagesFunction();
 		}
-	}, [readmeClicked]);
+	}, [readmeClicked,url]);
 	
 	const fetchLanguagesInfo = () => {
 		const convert = lang as { name: string, value: number }[];

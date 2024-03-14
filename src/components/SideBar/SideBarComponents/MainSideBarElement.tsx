@@ -7,7 +7,7 @@ import {addRepository, deleteRepository, updateFavoriteRepos} from '../../../bac
 import {AddToFavoritesContext, LoginButtonContext, LoginTokenContext, NodeItemContext} from '../../MyContext';
 import {favoriteResult, RepositoryOutput,Node} from '../../../backend/database/types/DBTypes';
 import {JSX} from 'react/jsx-runtime';
-
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 const MainSideBarElement = () =>{
 	const [isOpen, setIsOpen] = useState(false);
 	const {userToken, setUserToken,username, setUsername} = useContext(LoginTokenContext);
@@ -47,6 +47,7 @@ const MainSideBarElement = () =>{
 		const result = {
 			id: id,
 		};
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		await doGraphQLFetch(process.env.REACT_APP_GRAPHQL_SERVER!,deleteRepository,result,userToken);
 		setFavoriteRepos(prevItems => prevItems.filter(item => item.key !== id));
 	};
@@ -60,6 +61,7 @@ const MainSideBarElement = () =>{
 			},
 		};
 		const repo = await doGraphQLFetch(process.env.REACT_APP_GRAPHQL_SERVER!,addRepository,vars,userToken) as RepositoryOutput;
+
 		try {
 			const newItem = (
 				<Row key={repo.addRepository.id}>
@@ -72,7 +74,7 @@ const MainSideBarElement = () =>{
 			);
 			setFavoriteRepos(prevItems => [...prevItems, newItem]);
 		} catch (e) {
-			console.log('Error SideBar @fetchRepository function');
+			console.log('Error SideBar @fetchRepository function',);
 		}
 	};
 	const handleOpen = () =>{

@@ -16,7 +16,7 @@ const MarkdownElement = ({url,clicked}:{url:string,clicked:boolean}) => {
 			};
 			fetchReadMeFunction();
 		}
-	}, [clicked]);
+	}, [clicked,url]);
 
 	return(
 		<div>
