@@ -4,9 +4,8 @@ import {Node, Owner} from '../../backend/database/types/DBTypes';
 import {AddToFavoritesContext, NodeItemContext} from '../MyContext';
 const RepoCard = ({name,owner,url,clickReadmeURL,updateDescription,nodeItems,nodeID} : {name: string,owner:Owner,url:string,clickReadmeURL:(url: string)=>void,updateDescription:(item: Node)=>void,nodeItems: Node,nodeID:string}) => {
 	const {click, setClick} = useContext(AddToFavoritesContext);
-	const {owner_Context,name_Context,node_id_Context,url_Context,updated_at_Context, setOwner_Context,setName_Context,setNode_id_Context,setUpdated_at_Context,setUrl_Context} = useContext(NodeItemContext);
+	const {name_Context,node_id_Context,url_Context,updated_at_Context,setName_Context,setNode_id_Context,setUpdated_at_Context,setUrl_Context} = useContext(NodeItemContext);
 	const handleInformation = () =>{
-		setOwner_Context(owner.login);
 		setName_Context(name);
 		setNode_id_Context(nodeID);
 		setUrl_Context(url);
@@ -18,7 +17,7 @@ const RepoCard = ({name,owner,url,clickReadmeURL,updateDescription,nodeItems,nod
 				<Button onClick={()=>{setClick(!click); handleInformation();}}>Add to favorites</Button>
 				<p className={'name mb-0'}>{name}</p>
 				<p className={'mb-0'}>{owner.login}</p>
-				<Button href={url} className={'btn-sm'}>Visit Repository on github</Button>
+				<Button href={url} target={'_blank'} className={'btn-sm'}>Visit Repository on github</Button>
 			</Card.Body>
 		</Card>
 	);

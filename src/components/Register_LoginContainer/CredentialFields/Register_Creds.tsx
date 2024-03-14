@@ -7,8 +7,7 @@ const Register_Creds = () => {
 
 	const handleRegister = () => {
 		if (credentials.password === confirmPassword && credentials.password.length > 4) {
-			console.log('credentials !!', credentials);
-			userResolver.Mutation.register( undefined,{user: credentials}).then(r => console.log(r));
+			userResolver.Mutation.register( undefined,{user: credentials});
 		} else {
 			alert('Passwords do not match or are less than 5 characters long');
 		}

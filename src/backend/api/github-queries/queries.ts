@@ -61,7 +61,6 @@ const getRepositories =  async (page: number) => {
 				content_url: repo.contents_url,
 			};
 		});
-		console.log('Rate limit left: ', getRateLimit());
 		return repos;
 	} catch (error) {
 		console.log(new CustomError('An error occurred while fetching repositories', 500));
@@ -83,7 +82,6 @@ const fetchReadme = async (url: string) => {
 				'Accept': 'application/vnd.github.v3.raw'
 			}
 		});
-		console.log('Rate limit left: ', getRateLimit());
 		return query.data;
 	} catch (error) {
 		console.log(new CustomError('An error occurred while fetching readme', 500));
@@ -141,7 +139,6 @@ const getRepositoriesByUsername = async (username: string) => {
 				}
 			}`;
 		const repos:UserRepositories = await octokit.graphql(query);
-		console.log('Rate limit left: ', getRateLimit());
 		return repos.user.repositories.nodes;
 	} catch (error) {
 		console.log(new CustomError('An error occurred while fetching repositories by username', 500));
@@ -177,7 +174,6 @@ const getRepositoriesByIds = async (listID: string[]) => {
 		}
 	}`;
 		const repos:GithubRepository = await octokit.graphql(query);
-		console.log('Rate limit left: ', getRateLimit());
 		return repos.nodes;
 	}catch (error) {
 		console.log(error);
@@ -213,7 +209,6 @@ const getRepositoriesByName = async (name: string) => {
 		  }
 		}`;
 		const repos:SearchRepositoriesOutput = await octokit.graphql(query);
-		console.log('Rate limit left: ',getRateLimit());
 		return repos.search.edges;
 	}
 	catch (error) {

@@ -9,3 +9,21 @@ export const addRepository = `
     }
   }
 `;
+export const deleteRepository = `
+  mutation Mutation($id: ID!) {
+    removeRepository(id: $id) {
+        id
+     }
+  }
+`;
+export const updateFavoriteRepos = `
+  query Query {
+   favorites {
+    id
+    name
+    url
+    updated_at
+    node_id
+    }
+   }
+`;
