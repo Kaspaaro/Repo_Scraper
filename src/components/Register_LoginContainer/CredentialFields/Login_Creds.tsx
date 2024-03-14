@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import '../cssStyles/LoginContainerStyle.css';
 import UserResolver from '../../../backend/api/resolvers/userResolver';
+import {LoginTokenContext} from '../../MyContext';
 const Login_Creds = () => {
 	const [credentials, setCredentials] = useState({  password: '', username: '' });
-
+	const {userToken,username, setUserToken,setUsername} = useContext(LoginTokenContext);
 	const handleLogin = async () =>  {
-		UserResolver.Mutation.login( undefined,{credentials: credentials}).then(r => console.log(r));
+		UserResolver.Mutation.login( undefined,{credentials: credentials}).then(r => {setUserToken(r.token); setUsername(r.user.user_name);});
 	};
 	const handleInputChange = (e: { target: { name: string; value: string; }; }) => {
 		setCredentials({ ...credentials, [e.target.name]: e.target.value });
