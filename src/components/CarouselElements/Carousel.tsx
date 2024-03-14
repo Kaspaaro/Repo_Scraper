@@ -27,17 +27,16 @@ const ResultCarousel = (
 	};
 
 	const fetchStack = (items: Node[]) => {
-		fetchInformation(items);
 		return items.map((item, i) => (
-			<RepoCard key={i} name={item.name} owner={item.owner} url={item.url} clickReadmeURL={handleSendUrl}/>
+			<RepoCard key={i} name={item.name} owner={item.owner} url={item.url} clickReadmeURL={handleSendUrl} updateDescription={fetchInformation} nodeItems={item}/>
 		));
 	};
-	const fetchInformation = (items: Node[]) => {
-		return items.map((item, i) => {
-			if (item.description) {
-				getDescription(item.description);
-			}
-		});
+	const fetchInformation = (item: Node) => {
+		if (item.description === '' || item.description === undefined || item.description === null) {
+			return getDescription('No description Provided');
+		}else{
+			return getDescription(item.description);
+		}
 	};
 
 	useEffect(() => {
