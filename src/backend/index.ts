@@ -1,4 +1,3 @@
-
 import mongoConnect from './utils/db';
 import app from './app';
 

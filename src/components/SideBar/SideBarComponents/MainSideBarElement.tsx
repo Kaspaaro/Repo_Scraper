@@ -2,8 +2,8 @@ import React, {useContext, useEffect, useState} from 'react';
 import {ReactComponent as SideBarButton} from '../svgElements/ButtonHalfCircle.svg';
 import '../Styles/SideBar.css';
 import {Col, Container, Row, Stack } from 'react-bootstrap';
-import {doGraphQLFetch} from '../../../backend/api/GraphQL-queries/doGraphQLFetch';
-import {addRepository} from '../../../backend/api/GraphQL-queries/queries';
+import {doGraphQLFetch} from '../../../backend/api/graphQL-queries/doGraphQLFetch';
+import {addRepository} from '../../../backend/api/graphQL-queries/queries';
 import randomstring from 'randomstring';
 import {AddToFavoritesContext, LoginTokenContext, NodeItemContext} from '../../MyContext';
 const MainSideBarElement = () =>{
@@ -34,7 +34,7 @@ const MainSideBarElement = () =>{
 		}
 	},[click]);
 
-	
+
 	return(
 		<div className={`sidebarContent ${isOpen ? 'opensidebar' : ''}`}>
 			<SideBarButton className={'sidebarButton clickable'} onClick={()=>{handleOpen();}}/>
@@ -43,7 +43,7 @@ const MainSideBarElement = () =>{
 			</div>
 
 			<h6 className={'favRepoTitle'}>Favorite Repositories</h6>
-			
+
 			<Container className={'favoriteRepos'}>
 				<Stack gap={3}>
 					<Row>
@@ -64,8 +64,8 @@ const MainSideBarElement = () =>{
 				</Stack>
 			</Container>
 		</div>
-			
-		
+
+
 	);
 };
 export default MainSideBarElement;

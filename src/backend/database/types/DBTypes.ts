@@ -1,5 +1,4 @@
 import {Document, Types} from 'mongoose';
-import {fetchReadme} from '../../api/github-queries/queries';
 
 interface Repot {
     id: string;
