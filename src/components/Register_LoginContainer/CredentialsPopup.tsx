@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import './cssStyles/CredentialPopup.css';
 import LoginSelecionButton from './Buttons/LoginSelectionButton';
 import RegisterSelecionButton from './Buttons/RegisterSelectionButton';
@@ -6,9 +6,6 @@ import Register_Creds from './CredentialFields/Register_Creds';
 import Login_Creds from './CredentialFields/Login_Creds';
 import {Context} from '../MyContext';
 import {Button} from 'react-bootstrap';
-type Props = {
-	isOpen: boolean;
-}
 const CredentialsPopup = () =>{
 	const value = useContext(Context);
 	const [isOpen, setIsOpen] = useState(value.isOpen);
@@ -18,7 +15,6 @@ const CredentialsPopup = () =>{
 	const [isDisabledRegister, setDisabledRegister] = useState(false);
 
 	useEffect(()=>{
-		console.log('value',value);
 		setIsOpen(value.isOpen);
 		if (value.mode) {
 			setLoginActive(true);

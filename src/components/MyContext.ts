@@ -22,8 +22,6 @@ const addToFavoritesContext = {
 	setClick: (click:boolean)=>{},
 };
 const nodeItemContext = {
-	owner_Context: '',
-	setOwner_Context: (owner_Context:string)=>{},
 
 	node_id_Context: '',
 	setNode_id_Context: (node_id:string)=>{},
