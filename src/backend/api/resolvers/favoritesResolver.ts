@@ -18,15 +18,10 @@ export default {
 		 * @param _parent
 		 * @param args logged user id
 		 * @param context logged user data
-		 *
-		 * Fetches the favorite repositories of the user from the database.
-		 * If the user is logged in then it will return the favorite repositories of the user,
-		 * and if the count of the favorite repositories is greater than 0, then it will fetch the repositories from the github api
-		 * and compare the updated_at date of the favorite repository with the updated_at date of the repository from the github api.
-		 * If the repository has been updated recently then it will update the updated_at date of the favorite repository in the database and
-		 * returns the data of favorite repos of the user to usable in ui.
+		 * @returns the favorite repositories of the logged user
+		 * @throws GraphQLError if no favorite repositories were found
 		 */
-		favorites: async (_parent: undefined,args:{user:string}, context:MyContext) => {
+		favorites: async (_parent: undefined, args:{user:string}, context:MyContext) => {
 			isLoggedIn(context);
 			const favorites= await favoriteModel.find({user: context.userdata?.user._id});
 			if (favorites.length > 0) {
@@ -34,22 +29,36 @@ export default {
 			}
 			return new GraphQLError('No favorite repositories were found');
 		},
-		test: async (_parent: undefined, args: {input: string}, context: MyContext) => {
-			// const repos2 = await getRepositoriesByName('Web');
-			// const nodes = repos2.map((edge) => edge.node);
-			console.log('Rate limit left', await getRateLimit());
-		}
-
 	},
 	Mutation: {
+		/**
+		 * @param _parent
+		 * @param args input data
+		 * @param context logged user data
+		 * @returns the added repository
+		 * @throws GraphQLError if the user is not logged in
+		 * @throws GraphQLError if the user has already added 10 repositories to his favorites
+		 */
 		addRepository: async (_parent: undefined, args: {input: RepositoryInput}, context: MyContext) => {
 			isLoggedIn(context);
 			const repos = await favoriteModel.find({user: context.userdata?.user._id});
 			if (repos.length >= 10) {
 				throw new GraphQLError('You can only add 10 repositories to your favorites');
 			}
+			if (repos.map((repo) => repo.node_id).includes(args.input.node_id)) {
+				throw new GraphQLError('You have already added this repository to your favorites');
+			}
 			return favoriteModel.create({...args.input, user: context.userdata?.user._id});
 		},
+
+		/**
+		 * @param _parent
+		 * @param args input data
+		 * @param context logged user data
+		 * @returns the repository
+		 * @throws GraphQLError if the user is not logged in
+		 *
+		 */
 		updateRepositories: async (_parent: undefined, args:{user:string}, context: MyContext) => {
 			isLoggedIn(context);
 			console.log('Rate limit left upper', await getRateLimit());

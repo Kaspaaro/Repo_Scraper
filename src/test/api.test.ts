@@ -14,7 +14,7 @@ import {
 } from './repositoryTestFunctions';
 import {Simulate} from 'react-dom/test-utils';
 import input = Simulate.input;
-import {GraphQLError} from "graphql";
+import {GraphQLError} from 'graphql';
 describe('Test GraphQL API', () => {
 	beforeAll(async () => {
 		await mongoose.connect(process.env.DATABASE_URL as string);

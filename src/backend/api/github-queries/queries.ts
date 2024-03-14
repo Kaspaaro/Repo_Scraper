@@ -6,12 +6,21 @@ import {
 	UserRepositories
 } from '../../database/types/DBTypes';
 import CustomError from '../../CustomError';
-import {GraphQLError} from 'graphql';
+
+// Create a new instance of the Octokit class.
+// Octokit is a client to interact with the GitHub API.
+// In default, user can make 60 requests per hour without authentication.
+// If you want to make more requests, you need to authenticate with a GitHub token.
 const octokit = new Octokit({
 	auth: process.env.REACT_APP_API_TOKEN,
 	userAgent: 'octokit/rest.js v1.2.3',
 });
 
+/*
+* This function fetches the rate limit of the GitHub API.
+* @returns The number of requests left.
+* @throws CustomError if an error occurred while fetching the rate limit.
+ */
 const getRateLimit = async () => {
 	const data = await octokit.request('GET /rate_limit', {
 		headers: {
@@ -21,6 +30,12 @@ const getRateLimit = async () => {
 	return data.data.rate.remaining;
 };
 
+/*
+* This function fetches the repositories from the GitHub REST API endpoint.
+* @param page The page number of the repositories.
+* @returns The first 100 repositories of the page.
+* @throws CustomError if an error occurred while fetching the repositories.
+ */
 const getRepositories =  async (page: number) => {
 	try {
 		const query = await octokit.request('GET /repositories',
@@ -54,6 +69,12 @@ const getRepositories =  async (page: number) => {
 	}
 };
 
+/*
+* This function fetches the readme of a repository from the GitHub REST API endpoint.
+* @param url The url of the repository.
+* @returns The readme of the repository.
+* @throws CustomError if an error occurred while fetching the readme.
+ */
 const fetchReadme = async (url: string) => {
 	try {
 		const query = await octokit.request(`GET ${url}/contents/README.md`, {
@@ -69,6 +90,12 @@ const fetchReadme = async (url: string) => {
 		return '';
 	}
 };
+
+/*
+* This function fetches the languages of a repository from the GitHub REST API endpoint.
+* @param url The url of the repository.
+* @returns The languages of the repository.
+ */
 const fetchLanguages = async (url: string) => {
 	try {
 		const query = await octokit.request(`GET ${url}/languages`);
@@ -80,6 +107,11 @@ const fetchLanguages = async (url: string) => {
 	}
 };
 
+/*
+* This function fetches the repositories by username from the GitHub API graphql endpoint.
+* @param username The username of the user.
+* @returns The repositories of the user.
+ */
 const getRepositoriesByUsername = async (username: string) => {
 	try {
 		const query = `query {
@@ -117,6 +149,12 @@ const getRepositoriesByUsername = async (username: string) => {
 	}
 };
 
+/*
+* This function fetches the repositories by ids from the GitHub API graphql endpoint.
+* @param listID The list of ids of the repositories.
+* @returns The repositories of the ids.
+* @throws CustomError if an error occurred while fetching the repositories by ids.
+ */
 const getRepositoriesByIds = async (listID: string[]) => {
 	try {
 		const query = `query {
@@ -148,6 +186,12 @@ const getRepositoriesByIds = async (listID: string[]) => {
 	}
 };
 
+/*
+* This function fetches the repositories by name from the GitHub API graphql endpoint.
+* @param name The name of the repository.
+* @returns The repositories of the name.
+* @throws CustomError if an error occurred while fetching the repositories by name.
+ */
 const getRepositoriesByName = async (name: string) => {
 	try {
 		const query = `query {
@@ -176,7 +220,5 @@ const getRepositoriesByName = async (name: string) => {
 		return [];
 	}
 };
-
-
 
 export {getRepositoriesByUsername, getRepositories, getRepositoriesByIds, getRepositoriesByName, fetchReadme, getRateLimit,fetchLanguages};
