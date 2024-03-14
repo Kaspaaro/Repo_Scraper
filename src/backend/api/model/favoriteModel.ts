@@ -5,7 +5,7 @@ const favModel = new mongoose.Schema({
 	name: {
 		type: String,
 		required: true,
-		minlength: 3,
+		minlength: 1,
 		maxlength: 100,
 	},
 	url: {

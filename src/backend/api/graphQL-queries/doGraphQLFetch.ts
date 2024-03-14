@@ -12,7 +12,6 @@ const doGraphQLFetch = async (
 		headers.Authorization = `Bearer ${token}`;
 	}
 
-	console.log('ALL GRAPHQL FETCH', url, query,token);
 	try {
 		const response = await fetch(url, {
 			method: 'POST',

@@ -1,24 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import './Styles/RepoinfoStyles.css';
-import MarkdownElement from '../SearchBarElements/MarkdownTestPage';
+import MarkdownElement from '../SearchBarElements/MarkdownElement_README';
 import {Col, Container, Row, Stack} from 'react-bootstrap';
 import {fetchLanguages} from '../../backend/api/github-queries/queries';
 
-const repoInfo = ({url,description,languages}:{url:string,description:string|undefined,languages:NonNullable<unknown>}) =>{
+const repoInfo = ({url,description,readmeClicked}:{url:string,description:string|undefined,readmeClicked:boolean}) =>{
 	const [lang, setLang] = useState<{ name: string, value: number }[] | ''>([]);
 	
 	useEffect(() => {
-		const fetchReadMeFunction = async () => {
-			try {
-				const fileContent = await fetchLanguages(url);
-				setLang(fileContent);
-			} catch (error) {
-				console.error('Error fetching file content:', error);
-			}
-		};
+		if (readmeClicked){
+			const fetchLanguagesFunction = async () => {
+				try {
+					const fileContent = await fetchLanguages(url);
+					setLang(fileContent);
+				} catch (error) {
+					console.error('Error fetching file content:', error);
+				}
+			};
 
-		fetchReadMeFunction();
-	}, [url]);
+			fetchLanguagesFunction();
+		}
+	}, [readmeClicked,url]);
 	
 	const fetchLanguagesInfo = () => {
 		const convert = lang as { name: string, value: number }[];
@@ -45,44 +47,48 @@ const repoInfo = ({url,description,languages}:{url:string,description:string|und
 	};
 
 	return (
-		<Container className={'repoInfoContainer w-60'}>
-			<Row>
-				<Col lg={9} >
-					<div className={'title-README'}>
-						<h3>README</h3>
-					</div>
-				</Col>
-				<Col className={'row-cols-2 overflow-hidden mb-3'} lg={9}>
-					<div className={'repoInfo'}>
-						<MarkdownElement url={url}/>
-					</div>
-
-				</Col>
-				<Col className={'overflow-hidden mb-3'} style={{height:'31rem'}}>
-					<Row className={'repoAbout h-100'} lg={1}>
-						<Col>
-							<div className={'title-ABOUT'}>
-								<h4 className={'p-2 mt-2'}>About</h4>
-							</div>
-							<div className={'descBox h-50'}>
-								<p className={'fs-6'}>{description}</p>
+		<>
+			{readmeClicked && (
+				<Container className={'repoInfoContainer w-60'}>
+					<Row>
+						<Col lg={9} >
+							<div className={'title-README'}>
+								<h3>README</h3>
 							</div>
 						</Col>
-						<Col>
-							<div className={'title-LANGUAGES'}>
-								<h4 className={'p-2 mt-2'}>Languages</h4>
+						<Col className={'row-cols-2 overflow-hidden mb-3'} lg={9}>
+							<div className={'repoInfo'}>
+								<MarkdownElement url={url} clicked={readmeClicked}/>
 							</div>
-							<div className={'langBox'}>
-								<Stack className={'overflow-scroll'} style={{height:'9rem'}} >
-									{fetchLanguagesInfo()}
-								</Stack>
-							</div>
+
+						</Col>
+						<Col className={'overflow-hidden mb-3'} style={{height:'31rem'}}>
+							<Row className={'repoAbout h-100'} lg={1}>
+								<Col>
+									<div className={'title-ABOUT'}>
+										<h4 className={'p-2 mt-2'}>About</h4>
+									</div>
+									<div className={'descBox h-50'}>
+										<p className={'fs-6'}>{description}</p>
+									</div>
+								</Col>
+								<Col>
+									<div className={'title-LANGUAGES'}>
+										<h4 className={'p-2 mt-2'}>Languages</h4>
+									</div>
+									<div className={'langBox'}>
+										<Stack className={'overflow-scroll'} style={{height:'9rem'}} >
+											{fetchLanguagesInfo()}
+										</Stack>
+									</div>
+								</Col>
+							</Row>
+
 						</Col>
 					</Row>
-
-				</Col>
-			</Row>
-		</Container>
+				</Container>
+			)}
+		</>
 	);
 };
 export default repoInfo;

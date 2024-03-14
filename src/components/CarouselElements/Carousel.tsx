@@ -6,7 +6,6 @@ import { Node} from '../../backend/database/types/DBTypes';
 import {SearchBarContext} from '../MyContext';
 import { JSX } from 'react/jsx-runtime';
 
-
 const ResultCarousel = (
 	{handleClick, handleSendUrl,getDescription}:
 		{
@@ -19,7 +18,7 @@ const ResultCarousel = (
 	const [index, setIndex] = useState(0);
 	const [clicked, setClicked] = useState(false);
 	const [carouselItems, setCarouselItems] = useState<JSX.Element[]>([]);
-	const skillsData = searchContext.result as Node[];
+	const cardData = searchContext.result as Node[];
 	const handleSelect = async (selectedIndex: number) => {
 		setIndex(selectedIndex);
 	};
@@ -40,8 +39,8 @@ const ResultCarousel = (
 	useEffect(() => {
 		const items: JSX.Element[] = [];
 		try {
-			while (skillsData.length > 0) {
-				const batch = skillsData.splice(0, 5);
+			while (cardData.length > 0) {
+				const batch = cardData.splice(0, 5);
 				items.push(
 					<Carousel.Item key={items.length}>
 						<Stack className={'stackComponent'} direction={'horizontal'} gap={1}>
@@ -53,7 +52,7 @@ const ResultCarousel = (
 			setCarouselItems(items);
 
 		} catch (e) {
-			console.log('error', e);
+			console.log('No Results! @Carousel element');
 		}
 	}, [clicked]);
 	return (

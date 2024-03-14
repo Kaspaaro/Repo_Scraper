@@ -107,6 +107,9 @@ type GithubRepoType = {
 type Repositories = {
     data: [Node]
 }
+type favoriteResult = {
+    favorites: Node[];
+};
 
 type SearchRepositoriesOutput = {
     search: {
@@ -138,6 +141,16 @@ type Repository = Partial<Document> & {
         login: string;
     };
 
+}
+type RepositoryOutput = {
+    addRepository:{
+        id: string;
+        name: string;
+        url: string;
+        node_id: string;
+        updated_at: Date;
+        description: string;
+    }
 }
 type RepositoryTest = Partial<Repository>
 
@@ -186,5 +199,7 @@ export type {
 	Testi,
 	Owner,
 	Languages,
-	RepoLanguages
+	RepoLanguages,
+	RepositoryOutput,
+	favoriteResult
 };

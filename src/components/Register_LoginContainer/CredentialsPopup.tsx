@@ -1,33 +1,35 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import './cssStyles/CredentialPopup.css';
 import LoginSelecionButton from './Buttons/LoginSelectionButton';
 import RegisterSelecionButton from './Buttons/RegisterSelectionButton';
 import Register_Creds from './CredentialFields/Register_Creds';
 import Login_Creds from './CredentialFields/Login_Creds';
-import {Context} from '../MyContext';
+import {ClosePopupOnLogin, Context} from '../MyContext';
 import {Button} from 'react-bootstrap';
-type Props = {
-	isOpen: boolean;
-}
 const CredentialsPopup = () =>{
-	const value = useContext(Context);
-	const [isOpen, setIsOpen] = useState(value.isOpen);
+	const handleOpenValue = useContext(Context);
+	const {closePopup, setClosePopup} = useContext(ClosePopupOnLogin);
+	const [isOpen, setIsOpen] = useState(handleOpenValue.isOpen);
 	const [isLoginActive, setLoginActive] = useState(false);
 	const [isRegisterActive, setRegisterActive] = useState(false);
 	const [isDisabledLogin, setDisabledLogin] = useState(false);
 	const [isDisabledRegister, setDisabledRegister] = useState(false);
 
 	useEffect(()=>{
-		console.log('value',value);
-		setIsOpen(value.isOpen);
-		if (value.mode) {
+		setIsOpen(handleOpenValue.isOpen);
+		if (handleOpenValue.mode) {
 			setLoginActive(true);
 			setRegisterActive(false);
 		}else{
 			setLoginActive(false);
 			setRegisterActive(true);
 		}
-	},[value.isOpen]);
+		if (closePopup) {
+			setIsOpen(false);
+			handleOpenValue.handleOpen(false);
+			setClosePopup(false);
+		}
+	},[handleOpenValue.isOpen,closePopup]);
 
 	useEffect(() => {
 		if (isLoginActive) {
@@ -42,7 +44,7 @@ const CredentialsPopup = () =>{
 	return isOpen ?(
 		<>
 			<div className={`credentialContainer ${isOpen ? 'visible' : ''}`}>
-				<Button className={'closeButton'} onClick={()=>value.handleOpen(false)}>x</Button>
+				<Button className={'closeButton'} onClick={()=>handleOpenValue.handleOpen(false)}>x</Button>
 				<LoginSelecionButton isActive={isLoginActive} setActive={() => {
 					setLoginActive(!isLoginActive);
 					if (!isLoginActive) {
