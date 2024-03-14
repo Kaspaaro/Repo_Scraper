@@ -8,7 +8,7 @@ import CredentialsPopup from './components/Register_LoginContainer/CredentialsPo
 import AuthButton_Container from './components/AuthenticateButtons/Container/AuthButton_Container';
 import MainSideBarElement from './components/SideBar/SideBarComponents/MainSideBarElement';
 import {
-	AddToFavoritesContext,
+	AddToFavoritesContext, ClosePopupOnLogin,
 	Context,
 	LoginButtonContext,
 	LoginTokenContext,
@@ -32,6 +32,7 @@ function App() {
 	const [url_Context, setUrl_Context] = useState('');
 	const [updated_at_Context, setUpdated_at_Context] = useState('');
 	const [readmeOpen, setReadmeOpen] = useState(false);
+	const [closePopup, setClosePopup] = useState(false);
 	const handleOpen = (modeboolean:boolean) => {
 		_setIsOpen(!isOpen);
 		if (modeboolean) {
@@ -57,6 +58,7 @@ function App() {
 			<>
 				<div className="App">
 					<header className="App-header">
+						
 						<LoginButtonContext.Provider value={{clickedFunction: async ()=>{}}}>
 							<LoginTokenContext.Provider value={{userToken, setUserToken,username, setUsername}}>
 								<AddToFavoritesContext.Provider value={{click, setClick}}>
@@ -70,10 +72,12 @@ function App() {
 										updated_at_Context,
 										setUpdated_at_Context
 									}}>
-										<Context.Provider value={value}>
-											<CredentialsPopup/>
-											<AuthButton_Container/>
-										</Context.Provider>
+										<ClosePopupOnLogin.Provider value={{closePopup, setClosePopup}}>
+											<Context.Provider value={value}>
+												<CredentialsPopup/>
+												<AuthButton_Container/>
+											</Context.Provider>
+										</ClosePopupOnLogin.Provider>
 										<Logo className="App-logo"/>
 										<SearchBar onUrlChange={handleUrlChange} getDescription={handleGetDescription}/>
 										<RepoInfo url={url} description={desc} readmeClicked={readmeOpen}/>
