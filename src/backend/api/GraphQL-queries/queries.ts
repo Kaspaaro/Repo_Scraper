@@ -9,3 +9,10 @@ export const addRepository = `
     }
   }
 `;
+export const deleteRepository = `
+  mutation Mutation($id: ID!) {
+    removeRepository(id: $id) {
+        id
+     }
+  }
+`;

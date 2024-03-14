@@ -11,6 +11,7 @@ import {
 	getRateLimit
 } from '../github-queries/queries';
 import {GraphQLError} from 'graphql';
+import mongoose from 'mongoose';
 
 export default {
 	Query: {
@@ -41,14 +42,33 @@ export default {
 		 */
 		addRepository: async (_parent: undefined, args: {input: RepositoryInput}, context: MyContext) => {
 			isLoggedIn(context);
-			const repos = await favoriteModel.find({user: context.userdata?.user._id});
-			if (repos.length >= 10) {
-				throw new GraphQLError('You can only add 10 repositories to your favorites');
+			const session = await mongoose.startSession();
+			session.startTransaction();
+
+			try {
+				const repos = await favoriteModel.find({ user: context.userdata?.user._id }).session(session);
+
+				if (repos.length >= 10) {
+					throw new GraphQLError('You can only add 10 repositories to your favorites');
+				}
+
+				if (repos.some(repo => repo.node_id === args.input.node_id)) {
+					throw new GraphQLError('You have already added this repository to your favorites');
+				}
+
+				// Commit the transaction if all operations succeed
+				await session.commitTransaction();
+				session.endSession();
+
+				return favoriteModel.create({...args.input, user: context.userdata?.user._id});
+			} catch (error) {
+				// Rollback the transaction if any error occurs
+				await session.abortTransaction();
+				await session.endSession();
+
+				throw error;
 			}
-			if (repos.map((repo) => repo.node_id).includes(args.input.node_id)) {
-				throw new GraphQLError('You have already added this repository to your favorites');
-			}
-			return favoriteModel.create({...args.input, user: context.userdata?.user._id});
+			
 		},
 
 		/**

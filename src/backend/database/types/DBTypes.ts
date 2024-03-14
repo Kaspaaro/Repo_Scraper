@@ -140,6 +140,16 @@ type Repository = Partial<Document> & {
     };
 
 }
+type RepositoryOutput = {
+    addRepository:{
+        id: string;
+        name: string;
+        url: string;
+        node_id: string;
+        updated_at: Date;
+        description: string;
+    }
+}
 type RepositoryTest = Partial<Repository>
 
 type RepositoryInput = Omit<Repository, 'id'>;
@@ -187,5 +197,6 @@ export type {
 	Testi,
 	Owner,
 	Languages,
-	RepoLanguages
+	RepoLanguages,
+	RepositoryOutput
 };
