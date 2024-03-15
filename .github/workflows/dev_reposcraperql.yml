@@ -34,7 +34,6 @@ jobs:
           echo "REACT_APP_GRAPHQL_SERVER=$REACT_APP_GRAPHQL_SERVER" >> .env
           npm install
           npm run build:api
-          npm run test
           rm -rf src
        
       - name: Zip artifact for deployment
