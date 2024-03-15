@@ -3,9 +3,9 @@ import {ReactComponent as SideBarButton} from '../svgElements/ButtonHalfCircle.s
 import '../Styles/SideBar.css';
 import {Button, Col, Container, Row, Stack} from 'react-bootstrap';
 import {doGraphQLFetch} from '../../../backend/api/graphQL-queries/doGraphQLFetch';
-import {addRepository, deleteRepository, updateFavoriteRepos} from '../../../backend/api/graphQL-queries/queries';
+import {addRepository, deleteRepository, updateFavoriteRepos,updateFavoriteReposStats} from '../../../backend/api/graphQL-queries/queries';
 import {AddToFavoritesContext, LoginButtonContext, LoginTokenContext, NodeItemContext} from '../../MyContext';
-import {favoriteResult, RepositoryOutput,Node} from '../../../backend/database/types/DBTypes';
+import {favoriteResult, RepositoryOutput, updateRepository} from '../../../backend/database/types/DBTypes';
 import {JSX} from 'react/jsx-runtime';
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 const MainSideBarElement = () =>{
@@ -22,6 +22,8 @@ const MainSideBarElement = () =>{
 	};
 	const updateFavItems = async ()=>{
 		try{
+			const update = await doGraphQLFetch(process.env.REACT_APP_GRAPHQL_SERVER!,updateFavoriteReposStats,{},userToken) as updateRepository ;
+			console.log('UPDATE',update);
 			const res = await doGraphQLFetch(process.env.REACT_APP_GRAPHQL_SERVER!,updateFavoriteRepos,{},userToken) as favoriteResult;
 			res.favorites.map((item)=>{
 				try {
@@ -83,6 +85,7 @@ const MainSideBarElement = () =>{
 	useEffect(()=>{
 		if (click) {
 			fetchRepository();
+			setClick(false);
 		}
 	},[click]);
 	useEffect(() => {

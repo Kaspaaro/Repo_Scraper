@@ -27,3 +27,14 @@ export const updateFavoriteRepos = `
     }
    }
 `;
+export const updateFavoriteReposStats = `
+  mutation Mutation {
+	updateRepositories{
+	id
+    name
+    url
+    updated_at
+    node_id
+    }
+  }
+`;

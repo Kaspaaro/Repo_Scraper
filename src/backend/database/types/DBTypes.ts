@@ -20,13 +20,6 @@ type User = Partial<Document> & {
     role: 'user' | 'admin';
     password: string;
 };
-type GithubUser = {
-    data: {
-        user: {
-            name: string;
-        };
-    }
-};
 
 type Owner = {
     login: string;
@@ -75,13 +68,6 @@ type UpdatedRepositories = {
     url: string
     updated_at: Date
 }
-
-type Testi = {
-    repositoryCount: number;
-    edges: {
-        node: Node[];
-    }[];
-};
 
 type UserRepositories = {
     user: {
@@ -152,6 +138,9 @@ type RepositoryOutput = {
         description: string;
     }
 }
+type updateRepository = {
+    updateRepositories:[]
+};
 type RepositoryTest = Partial<Repository>
 
 type RepositoryInput = Omit<Repository, 'id'>;
@@ -182,7 +171,6 @@ export type {
 	UserTest,
 	LoginUser,
 	TokenContent,
-	GithubUser,
 	Repository,
 	RepositoryInput,
 	RepositoryTest,
@@ -196,10 +184,10 @@ export type {
 	Repot,
 	Node,
 	UpdatedRepositories,
-	Testi,
 	Owner,
 	Languages,
 	RepoLanguages,
 	RepositoryOutput,
-	favoriteResult
+	favoriteResult,
+	updateRepository
 };

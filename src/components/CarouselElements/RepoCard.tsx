@@ -14,7 +14,7 @@ const RepoCard = ({name,owner,url,clickReadmeURL,updateDescription,nodeItems,nod
 	return(
 		<Card className={'card clickable'} onClick={() => {clickReadmeURL(`https://api.github.com/repos/${owner.login}/${name}`); updateDescription(nodeItems);}} >
 			<Card.Body className={'card-body'}>
-				<Button onClick={()=>{setClick(!click); handleInformation();}}>Add to favorites</Button>
+				<Button onClick={()=>{setClick(true); handleInformation();}}>Add to favorites</Button>
 				<p className={'name mb-0'}>{name}</p>
 				<p className={'mb-0'}>{owner.login}</p>
 				<Button href={url} target={'_blank'} className={'btn-sm'}>Visit Repository on github</Button>
