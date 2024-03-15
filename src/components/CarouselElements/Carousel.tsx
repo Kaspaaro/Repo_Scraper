@@ -19,6 +19,7 @@ const ResultCarousel = (
 	const [clicked, setClicked] = useState(false);
 	const [carouselItems, setCarouselItems] = useState<JSX.Element[]>([]);
 	const cardData = searchContext.result as Node[];
+	const [buttonDisabled, setButtonDisabled] = useState(false);
 	const handleSelect = async (selectedIndex: number) => {
 		setIndex(selectedIndex);
 	};
@@ -57,7 +58,11 @@ const ResultCarousel = (
 	}, [clicked]);
 	return (
 		<>
-			<Button className={'searchButton'} onClick={async ()=>{await handleClick(); setClicked(!clicked);}}>Search</Button>
+			<Button className={'searchButton'} disabled={buttonDisabled} onClick={async ()=>{
+				setButtonDisabled(true); await handleClick(); setClicked(!clicked);
+				setTimeout(() => {
+					setButtonDisabled(false);
+				}, 3000);}}>Search</Button>
 			<Carousel className={'mainCarouselComponent'} interval={null} data-bs-theme="dark" activeIndex={index} onSelect={handleSelect}>
 				{carouselItems}
 			</Carousel>

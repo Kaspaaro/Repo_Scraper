@@ -153,6 +153,9 @@ type RepositoryOutput = {
         description: string;
     }
 }
+type updateRepository = {
+    updateRepositories:[]
+};
 type RepositoryTest = Partial<Repository>
 
 type RepositoryInput = Omit<Repository, 'id'>;
@@ -202,5 +205,6 @@ export type {
 	Languages,
 	RepoLanguages,
 	RepositoryOutput,
-	favoriteResult
+	favoriteResult,
+	updateRepository
 };
