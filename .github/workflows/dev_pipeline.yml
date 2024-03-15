@@ -27,6 +27,7 @@ jobs:
           SECRET_USERNAME: ${{secrets.SECRET_USERNAME}}
           SECRET_PASSWORD: ${{secrets.SECRET_PASSWORD}}
           REACT_APP_API_TOKEN: ${{secrets.TOKEN_API}}
+          REACT_APP_GRAPHQL_SERVER: ${{secrets.GRAPHQL_API}}
         run: |
             touch .env
             echo "DATABASE_URL=$DATABASE_URL" >> .env
@@ -35,6 +36,7 @@ jobs:
             echo "SECRET_USERNAME=$SECRET_USERNAME" >> .env
             echo "SECRET_PASSWORD=$SECRET_PASSWORD" >> .env
             echo "REACT_APP_API_TOKEN=$REACT_APP_API_TOKEN" >> .env
+            echo "REACT_APP_GRAPHQL_SERVER=$REACT_APP_GRAPHQL_SERVER" >> .env
             npm install
 
       - name: Build

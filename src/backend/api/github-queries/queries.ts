@@ -1,7 +1,7 @@
 import {Octokit} from 'octokit';
 import {
 	GithubOutputRepositories,
-	GithubRepository, GithubRepoType, RepoLanguages, Repot,
+	GithubRepository,
 	SearchRepositoriesOutput,
 	UserRepositories
 } from '../../database/types/DBTypes';
@@ -176,7 +176,6 @@ const getRepositoriesByIds = async (listID: string[]) => {
 		const repos:GithubRepository = await octokit.graphql(query);
 		return repos.nodes;
 	}catch (error) {
-		console.log(error);
 		console.log(new CustomError('An error occurred while fetching repositories by ids', 500));
 		return [];
 	}
