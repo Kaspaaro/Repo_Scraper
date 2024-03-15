@@ -64,6 +64,7 @@ const getRepositories =  async (page: number) => {
 		return repos;
 	} catch (error) {
 		console.log(new CustomError('An error occurred while fetching repositories', 500));
+		return [];
 	}
 };
 
@@ -84,6 +85,7 @@ const fetchReadme = async (url: string) => {
 		return query.data;
 	} catch (error) {
 		console.log(new CustomError('An error occurred while fetching readme', 500));
+		return '';
 	}
 };
 
@@ -99,6 +101,7 @@ const fetchLanguages = async (url: string) => {
 		return res;
 	} catch (error) {
 		console.log(new CustomError('An error occurred while fetching Languages', 500));
+		return '';
 	}
 };
 
@@ -139,6 +142,7 @@ const getRepositoriesByUsername = async (username: string) => {
 		return repos.user.repositories.nodes;
 	} catch (error) {
 		console.log(new CustomError('An error occurred while fetching repositories by username', 500));
+		return [];
 	}
 };
 
@@ -173,6 +177,7 @@ const getRepositoriesByIds = async (listID: string[]) => {
 		return repos.nodes;
 	}catch (error) {
 		console.log(new CustomError('An error occurred while fetching repositories by ids', 500));
+		return [];
 	}
 };
 
@@ -207,6 +212,7 @@ const getRepositoriesByName = async (name: string) => {
 	}
 	catch (error) {
 		console.log(new CustomError('An error occurred while fetching repositories by name', 500));
+		return [];
 	}
 };
 

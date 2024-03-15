@@ -68,7 +68,7 @@ export default {
 
 				throw error;
 			}
-			
+
 		},
 
 		/**
@@ -81,7 +81,6 @@ export default {
 		 */
 		updateRepositories: async (_parent: undefined, args:{user:string}, context: MyContext) => {
 			isLoggedIn(context);
-			console.log('Rate limit left upper', await getRateLimit());
 			const favorites = await favoriteModel.find({user: context.userdata?.user._id});
 			if (favorites.length > 0) {
 				const ids = favorites.map((fav) => fav.node_id);
@@ -93,7 +92,6 @@ export default {
 					const date_fav = new Date(favorites[index].updated_at);
 					if (date_repo > date_fav) {
 						try {
-							console.log('repository has been updated recently ', repo);
 							const updated:UpdatedRepositories| null = await favoriteModel.findOneAndUpdate({
 								node_id: repo.id,
 								user: context.userdata?.user._id
