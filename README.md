@@ -68,7 +68,7 @@ npm run build
 npm run start
 ```
 ## Attention!
-Note!: The register is not broken, it just lacks the feature to tell the user that hes now registered, so when u fill the fields just try to login into the account :) 
+### **Note**: The register is not broken, it just lacks the feature to tell the user that he's now registered. So when you fill the fields, just try to log in to the account 🙂
 For using the application in full functionality in locally, you need to have **an auth server** and **database** for the app.
 You can use this for the auth server or make your own.
 ```shell
