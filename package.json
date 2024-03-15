@@ -6,8 +6,12 @@
   "license": "MIT",
   "scripts": {
     "start": "concurrently \"node dist/src/backend/index.js\" \" react-scripts start \"",
+    "start:react": "react-scripts start",
+    "start:api": "node dist/src/backend/index.js",
     "dev": "nodemon src/backend/index.ts",
     "build": "concurrently \"react-scripts build\" \"tsc\"",
+    "build:react": "react-scripts build",
+    "build:api": "tsc",
     "copyGraphql": "copyfiles --error src/backend/api/schemas/*.graphql dist",
     "postbuild": "npm run copyGraphql",
     "lint": "eslint --fix src src/test",
