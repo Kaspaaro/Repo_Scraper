@@ -1,2 +1,3 @@
 import userReslover from './userResolver';
-export default [userReslover];
+import favoritesResolver from './favoritesResolver';
+export default [userReslover, favoritesResolver];

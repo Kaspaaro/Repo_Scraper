@@ -11,20 +11,16 @@ import {
 	ApolloServerPluginLandingPageProductionDefault,
 } from '@apollo/server/plugin/landingPage/default';
 import {notFound, errorHandler} from './middlewares';
-// import {createRateLimitRule} from 'graphql-rate-limit';
-// import {shield} from 'graphql-shield';
 import {makeExecutableSchema} from '@graphql-tools/schema';
 import {applyMiddleware} from 'graphql-middleware';
 import {MyContext} from './database/types/MyContext';
 import authenticate from './auth-functions/authenticate';
 import typeDefs from './api/schemas/index';
-//import {GraphQLError} from 'graphql';
-//test
-//test1
 
 
 
-const app = express();  
+
+const app = express();
 
 app.use(
 	helmet({

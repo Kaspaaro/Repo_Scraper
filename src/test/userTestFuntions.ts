@@ -72,7 +72,6 @@ const loginUser = (
 					reject(err);
 				} else {
 					const user = vars.credentials;
-					console.log('login response', response.body);
 					const userData = response.body.data.login;
 					expect(userData).toHaveProperty('message');
 					expect(userData).toHaveProperty('token');
@@ -118,4 +117,37 @@ const deleteUser = (
 	});
 };
 
-export {postUser, loginUser, deleteUser};
+const adminDeleteUser = (
+	url: string | Application,
+	id: string,
+	token: string,
+): Promise<UserResponse> => {
+	return new Promise((resolve, reject) => {
+		request(url)
+			.post('/graphql')
+			.set('Authorization', 'Bearer ' + token)
+			.send({
+				query: `mutation DeleteUserAsAdmin($deleteUserAsAdminId: ID!) {
+          deleteUserAsAdmin(id: $deleteUserAsAdminId) {
+            user {
+              id
+            }
+          }
+        }`,
+				variables: {
+					deleteUserAsAdminId: id,
+				},
+			})
+			.expect(200, (err, response) => {
+				if (err) {
+					reject(err);
+				} else {
+					const userData = response.body.data.deleteUserAsAdmin;
+					expect(userData.user.id).toBe(id);
+					resolve(userData);
+				}
+			});
+	});
+};
+
+export {postUser, loginUser, deleteUser, adminDeleteUser};

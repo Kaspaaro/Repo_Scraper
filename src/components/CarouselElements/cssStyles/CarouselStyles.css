@@ -1,0 +1,41 @@
+.mainCarouselComponent{
+    width: inherit;
+    height: 18rem;
+
+}
+.carousel-control-prev{
+    margin-left: -10rem;
+    height: 2em;
+    margin-bottom: auto;
+    margin-top: auto;
+}
+.carousel-control-next{
+    margin-right: -10rem;
+    height: 2em;
+    margin-bottom: auto;
+    margin-top: auto;
+}
+.stackComponent{
+    justify-content: center;
+    align-items: center;
+}
+.card{
+    height: 50rem;
+    margin: 0 10px auto 0;
+    justify-content: center;
+}
+.card-body{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    font-size: 0.7em;
+    height: 14rem;
+    width: auto;
+}
+.searchButton{
+    width: inherit;
+    margin-bottom:3rem;
+}
+.carousel-inner{
+    width: inherit;
+}

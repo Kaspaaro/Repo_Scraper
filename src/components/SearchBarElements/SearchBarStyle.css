@@ -1,0 +1,20 @@
+.searchBar{
+    width: 50%;
+    height: 30px;
+    background-color: #0D1117;
+    border-radius: 10px;
+    border: 1px solid #30363D;
+    color:white;
+    font-size: small;
+}
+.filterButton{
+    height: 30px;
+    border-radius: 0 10px 10px 0;
+    background-color: #E8E8E8;
+    color: black;
+    font-size: small;
+
+}
+.carouselHolder{
+    display: contents;
+}

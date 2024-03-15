@@ -1,0 +1,45 @@
+.cred_loginField{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5%;
+    width: 100%;
+    transition: all 0.5s ease;
+}
+
+.usernameRegisterInput,.confirmPasswordRegisterInput,.emailRegisterInput
+,.passwordRegisterInput{
+    background-color: rgb(13,17,23);
+    box-sizing: border-box;
+    color: white;
+    border: 2px solid rgb(48, 54, 61);
+    border-radius: 5px;
+    width: 383px;
+    height: 42px;
+    padding: 1%;
+    margin-top: 4%;
+}
+.registerCredsForm{
+    padding: 2%;
+}
+
+.registerButtonCreds{
+    background-color: rgb(13,17,23);
+    color: white;
+    border: 2px solid rgb(0, 127, 255, 0.8);
+    border-radius: 5px;
+    width: 195px;
+    height: 34px;
+    margin-top: 5%;
+}
+
+.containerLoginButton{
+    padding: 2%;
+    fill: #212121;
+    max-width: 276px;
+    max-height: 68px;
+}
+.loginButtonParagraph{
+    color: aliceblue;
+}

@@ -1,21 +1,28 @@
-import {User, UserInput} from '../../database/types/DBTypes';
+import {User, UserInput, Repository} from '../../database/types/DBTypes';
 import {MyContext} from '../../database/types/MyContext';
 import fetchData from '../../auth-functions/fetchData';
-import {UserResponse} from '../../database/types/MessageTypes';
+import {LoginResponse, UserResponse} from '../../database/types/MessageTypes';
 import {isAdmin, isLoggedIn} from '../../auth-functions/authorize';
+import {favoriteModel} from '../model/favoriteModel';
 
 export default {
+
+	FavoriteRepository: {
+		owner: async (parent: Repository) => {
+			return await fetchData<User>(`${process.env.REACT_APP_AUTH_URL}/users/` + parent.user);
+		},
+	},
 	Query: {
 		users: async () => {
-			return await fetchData<User[]>(`${process.env.AUTH_URL}/users`);
+			return await fetchData<User[]>(`${process.env.REACT_APP_AUTH_URL}/users`);
 		},
 		userById: async (_parent: undefined, args: {id: string}) => {
 			console.log('args', args.id);
-			return await fetchData<User>(`${process.env.AUTH_URL}/users/` + args.id);
+			return await fetchData<User>(`${process.env.REACT_APP_AUTH_URL}/users/` + args.id);
 		},
 		checkToken: async (_parent: undefined, args: NonNullable<unknown>, context: MyContext) => {
 			return await fetchData<UserResponse>(
-				`${process.env.AUTH_URL}/users/token`,
+				`${process.env.REACT_APP_AUTH_URL}/users/token`,
 				{
 					headers: {
 						Authorization: `Bearer ${context.userdata?.token}`,
@@ -25,8 +32,8 @@ export default {
 		},
 	},
 	Mutation: {
-		register: async (_parent: undefined, args: {user: UserInput}) => {
-			return await fetchData<UserResponse>(`${process.env.AUTH_URL}/users`, {
+		register: async (_parent:undefined ,args: {user: UserInput}) => {
+			return await fetchData<UserResponse>(`${process.env.REACT_APP_AUTH_URL}/users`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -38,9 +45,8 @@ export default {
 			_parent: undefined,
 			args: {credentials: {username: string; password: string}},
 		) => {
-			//LoginResponse???
-			return await fetchData<UserResponse>(
-				`${process.env.AUTH_URL}/auth/login`,
+			return await fetchData<LoginResponse>(
+				`${process.env.REACT_APP_AUTH_URL}/auth/login`,
 				{
 					method: 'POST',
 					headers: {
@@ -56,7 +62,7 @@ export default {
 			context: MyContext,
 		) => {
 			isLoggedIn(context);
-			return await fetchData<UserResponse>(`${process.env.AUTH_URL}/users`, {
+			return await fetchData<UserResponse>(`${process.env.REACT_APP_AUTH_URL}/users`, {
 				method: 'PUT',
 				headers: {
 					Authorization: `Bearer ${context.userdata?.token}`,
@@ -72,7 +78,7 @@ export default {
 		) => {
 			isLoggedIn(context);
 			return await fetchData<UserResponse>(
-				`${process.env.AUTH_URL}/users/` + args.id,
+				`${process.env.REACT_APP_AUTH_URL}/users/` + args.id,
 				{
 					method: 'PUT',
 					headers: {
@@ -85,8 +91,11 @@ export default {
 		},
 		deleteUser: async (_parent: undefined, args: NonNullable<unknown>, context: MyContext) => {
 			isLoggedIn(context);
-			//console.log('user from delete function', context.userdata?.token);
-			return await fetchData<UserResponse>(`${process.env.AUTH_URL}/users`, {
+			const favorites = await favoriteModel.find({user: context.userdata?.user._id});
+			if (favorites.length > 0) {
+				await favoriteModel.deleteMany({user: context.userdata?.user._id});
+			}
+			return await fetchData<UserResponse>(`${process.env.REACT_APP_AUTH_URL}/users`, {
 				method: 'DELETE',
 				headers: {
 					Authorization: `Bearer ${context.userdata?.token}`,
@@ -100,7 +109,7 @@ export default {
 		) => {
 			isAdmin(context);
 			return await fetchData<UserResponse>(
-				`${process.env.AUTH_URL}/users/` + args.id,
+				`${process.env.REACT_APP_AUTH_URL}/users/` + args.id,
 				{
 					method: 'DELETE',
 					headers: {
