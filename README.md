@@ -15,6 +15,9 @@ repositories to the favorites list and get notified when a repository is updated
 - Kaspar Tullus
 - Samu Aikio
 
+## Application Website Links
+- [Frontend](https://reposcraper.azurewebsites.net/)
+
 ## Technologies
 ![Static Badge](https://img.shields.io/badge/v18.2-blue?logo=React&label=React&labelColor=black)
 ![Static Badge](https://img.shields.io/badge/Node-v20.11.0-darkgreen?style=flat&logo=node.js&labelColor=%23000000)
