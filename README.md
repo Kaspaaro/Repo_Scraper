@@ -54,12 +54,14 @@ You can download Node.js from the official website [here](https://nodejs.org/en/
 ```shell
 # Clone the repository
 git clone https://github.com/Kaspaaro/WebProju-2.git
+cd WebProju-2
 npm install
 ```
 Application uses separate servers for the frontend and backend.
 To start the application, you need to start both servers by command.
 ```shell
 # Start the application
+npm run build
 npm run start
 ```
 ## Attention!
