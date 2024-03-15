@@ -78,4 +78,5 @@ jobs:
         with:
           app-name: 'RepoScraper'
           slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C81C6000073944459053F2C4A64BA8A9 }}
           package: .
