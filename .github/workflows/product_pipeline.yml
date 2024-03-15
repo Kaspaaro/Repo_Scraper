@@ -37,27 +37,17 @@ jobs:
             echo "REACT_APP_API_TOKEN=$REACT_APP_API_TOKEN" >> .env
             echo "REACT_APP_GRAPHQL_SERVER=$REACT_APP_GRAPHQL_SERVER" >> .env
             npm install
-            npm run build --if-present
+            npm run build:react
 
       - name: Zip react app for deployment
         working-directory: ./build
         run: zip release-react.zip ./* -r
-
-      - name: Zip api server for deployment
-        working-directory: ./dist/src
-        run: zip release-api-server.zip ./* -r
-
+        
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: react-app
           path: release-react.zip
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: api-server
-          path: release-api-server.zip
 
   deploy_react:
     runs-on: ubuntu-latest
@@ -91,37 +81,3 @@ jobs:
           app-name: 'RepoScraper'
           slot-name: 'Production'
           package: .
-
-  deploy_api_server:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write
-
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
-        with:
-          name: api-server
-
-      - name: Unzip artifact for deployment
-        run: release-api-server.zip
-
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C4FFD65644164B1E9ED866532BD4D2A7 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D817091665BA4AEC92B404DCC6A733C8 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_50F76946EED145C39B5465EBEDD6E5E7 }}
-
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'RepoScraper'
-          slot-name: 'Production'
-          package: .
-
