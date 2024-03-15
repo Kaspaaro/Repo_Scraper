@@ -3,6 +3,14 @@ type User {
     user_name: String!
     email: String!
 }
+type FavoriteRepository {
+    id: ID!
+    node_id: String!
+    name: String!
+    owner: User!
+    url: String!
+    updated_at: DateTime!
+}
 
 type LoginResponse {
     token: String
