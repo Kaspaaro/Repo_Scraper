@@ -1,5 +1,4 @@
 import {Document, Types} from 'mongoose';
-import {fetchReadme} from '../../api/github-queries/queries';
 
 interface Repot {
     id: string;
@@ -20,13 +19,6 @@ type User = Partial<Document> & {
     email: string;
     role: 'user' | 'admin';
     password: string;
-};
-type GithubUser = {
-    data: {
-        user: {
-            name: string;
-        };
-    }
 };
 
 type Owner = {
@@ -76,13 +68,6 @@ type UpdatedRepositories = {
     url: string
     updated_at: Date
 }
-
-type Testi = {
-    repositoryCount: number;
-    edges: {
-        node: Node[];
-    }[];
-};
 
 type UserRepositories = {
     user: {
@@ -186,7 +171,6 @@ export type {
 	UserTest,
 	LoginUser,
 	TokenContent,
-	GithubUser,
 	Repository,
 	RepositoryInput,
 	RepositoryTest,
@@ -200,7 +184,6 @@ export type {
 	Repot,
 	Node,
 	UpdatedRepositories,
-	Testi,
 	Owner,
 	Languages,
 	RepoLanguages,

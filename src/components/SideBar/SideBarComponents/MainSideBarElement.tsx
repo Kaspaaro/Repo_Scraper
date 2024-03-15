@@ -10,7 +10,7 @@ import {
 	updateFavoriteReposStats
 } from '../../../backend/api/GraphQL-queries/queries';
 import {AddToFavoritesContext, LoginButtonContext, LoginTokenContext, NodeItemContext} from '../../MyContext';
-import {favoriteResult, RepositoryOutput, Node, updateRepository} from '../../../backend/database/types/DBTypes';
+import {favoriteResult, RepositoryOutput, updateRepository} from '../../../backend/database/types/DBTypes';
 import {JSX} from 'react/jsx-runtime';
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 const MainSideBarElement = () =>{

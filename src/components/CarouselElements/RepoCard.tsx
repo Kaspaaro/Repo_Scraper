@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import {Button, Card} from 'react-bootstrap';
 import {Node, Owner} from '../../backend/database/types/DBTypes';
 import {AddToFavoritesContext, NodeItemContext} from '../MyContext';
