@@ -1,85 +1,69 @@
 name: Build and deploy Node.js app to Azure Web App - RepoScrapQL
-
 on:
   push:
     branches:
       - dev
   workflow_dispatch:
 
-    jobs:
-      build:
-        runs-on: ubuntu-latest
-          - uses: actions/checkout@v4
-          - name: Set up Node.js version
-            uses: actions/setup-node@v4
-            with:
-              node-version: '20.x'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js version
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - name: npm install, build
+        env:
+          DATABASE_URL: ${{secrets.DATABASE_URL}}
+          REACT_APP_AUTH_URL: ${{secrets.AUTH_URL}}
+          JWT_SECRET: ${{secrets.JWT_SECRET}}
+          SECRET_USERNAME: ${{secrets.SECRET_USERNAME}}
+          SECRET_PASSWORD: ${{secrets.SECRET_PASSWORD}}
+          REACT_APP_API_TOKEN: ${{secrets.TOKEN_API}}
+          REACT_APP_GRAPHQL_SERVER: ${{secrets.GRAPHQL_API}}
+        run: |
+          touch .env
+          echo "DATABASE_URL=$DATABASE_URL" >> .env
+          echo "REACT_APP_AUTH_URL=$REACT_APP_AUTH_URL" >> .env
+          echo "JWT_SECRET=$JWT_SECRET" >> .env
+          echo "SECRET_USERNAME=$SECRET_USERNAME" >> .env
+          echo "SECRET_PASSWORD=$SECRET_PASSWORD" >> .env
+          echo "REACT_APP_API_TOKEN=$REACT_APP_API_TOKEN" >> .env
+          echo "REACT_APP_GRAPHQL_SERVER=$REACT_APP_GRAPHQL_SERVER" >> .env
+          npm install
+          npm run build:api
+          npm run test:build
+      - name: Zip artifact for deployment
+        run: zip release.zip ./* -r
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: api-server
+          path: release.zip
 
-          - name: npm install, build
-            env:
-              DATABASE_URL: ${{secrets.DATABASE_URL}}
-              REACT_APP_AUTH_URL: ${{secrets.AUTH_URL}}
-              JWT_SECRET: ${{secrets.JWT_SECRET}}
-              SECRET_USERNAME: ${{secrets.SECRET_USERNAME}}
-              SECRET_PASSWORD: ${{secrets.SECRET_PASSWORD}}
-              REACT_APP_API_TOKEN: ${{secrets.TOKEN_API}}
-              REACT_APP_GRAPHQL_SERVER: ${{secrets.GRAPHQL_API}}
-            run: |
-              touch .env
-              echo "DATABASE_URL=$DATABASE_URL" >> .env
-              echo "REACT_APP_AUTH_URL=$REACT_APP_AUTH_URL" >> .env
-              echo "JWT_SECRET=$JWT_SECRET" >> .env
-              echo "SECRET_USERNAME=$SECRET_USERNAME" >> .env
-              echo "SECRET_PASSWORD=$SECRET_PASSWORD" >> .env
-              echo "REACT_APP_API_TOKEN=$REACT_APP_API_TOKEN" >> .env
-              echo "REACT_APP_GRAPHQL_SERVER=$REACT_APP_GRAPHQL_SERVER" >> .env
-              npm install
-              npm run build:api
-  
-
-          - name: Zip artifact for deployment
-            working-directory: ./dist/src
-            run: zip release.zip ./* -r
-
-          - name: Upload artifact for deployment job
-            uses: actions/upload-artifact@v3
-            with:
-              name: api-server
-              path: release.zip
-
-    deploy:
-      runs-on: ubuntu-latest
-      needs: build
-      environment:
-        name: 'Production'
-        url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-      permissions:
-        id-token: write
-
-      steps:
-        - name: Download artifact from build job
-          uses: actions/download-artifact@v3
-          with:
-            name: api-server
-
-        - name: Unzip artifact for deployment
-          run: unzip release.zip
-
-        - name: Login to Azure
-          uses: azure/login@v1
-          with:
-            client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C16E974DD18144C7B134B42E288DC4BC }}
-            tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_9AE079973F2448C69FEE2DD1DB15C625 }}
-            subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_799F9DA119DA4702888BFB4397DFD584 }}
-
-        - name: 'Deploy to Azure Web App'
-          id: deploy-to-webapp
-          uses: azure/webapps-deploy@v2
-          with:
-            app-name: 'RepoScrapQL'
-            slot-name: 'Production'
-            package: .
-
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: api-server
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C16E974DD18144C7B134B42E288DC4BC }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_9AE079973F2448C69FEE2DD1DB15C625 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_799F9DA119DA4702888BFB4397DFD584 }}
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
@@ -87,4 +71,3 @@ on:
           app-name: 'RepoScrapQL'
           slot-name: 'Production'
           package: .
-          
