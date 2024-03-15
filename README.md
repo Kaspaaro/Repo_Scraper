@@ -15,6 +15,9 @@ repositories to the favorites list and get notified when a repository is updated
 - Kaspar Tullus
 - Samu Aikio
 
+## Application Website Links
+- [Frontend](https://reposcraper.azurewebsites.net/)
+
 ## Technologies
 ![Static Badge](https://img.shields.io/badge/v18.2-blue?logo=React&label=React&labelColor=black)
 ![Static Badge](https://img.shields.io/badge/Node-v20.11.0-darkgreen?style=flat&logo=node.js&labelColor=%23000000)
@@ -60,7 +63,7 @@ npm install
 Application uses separate servers for the frontend and backend.
 To start the application, you need to start both servers by command.
 ```shell
-# Start the application
+# Start the application !Note: You need to have the .env file configured.
 npm run build
 npm run start
 ```
@@ -108,6 +111,25 @@ The application uses the GitHub API to get the repositories and their details.
 The API has a rate limit of 60 requests per hour for unauthenticated users and
 5000 requests per hour for authenticated users.
 
+## Unit Testing
+The application uses Jest for unit testing. The tests are located in the tests folder.
+To run the tests, you need to run the command:
+```shell
+npm run test
+```
+
+## Test Results
+We have covered our most of our database and server functionality with unit tests.
+Tests with GithubAPI are not covered with unit tests.
+Tests require .env file with the following variables:
+
+```text
+SECRET_USERNAME=your-admin-email from db
+SECRET_PASSWORD=your-admin-password
+Database_URL=your-database-url
+React_APP_AUTH_URL=your-auth-server-url
+React_App_GRAPHQL_SERVER=your-graphql-server-url
+```
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
